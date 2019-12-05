@@ -5,10 +5,12 @@
  */
 
 #include "myentity.h"
+#include "sprite.h"
 
 MyEntity::MyEntity() : Entity()
 {
 	this->addSprite("assets/hex_cursor.tga");
+	this->sprite()->color = WHITE;
 }
 
 MyEntity::~MyEntity()
