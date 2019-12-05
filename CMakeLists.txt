@@ -174,10 +174,10 @@ ENDIF()
 IF(MAKE_GAME)
 	add_executable(game
 		game/main.cpp
-		game/myentity.cpp
-		game/myentity.h
 		game/myscene.cpp
 		game/myscene.h
+		game/myentity.h
+		game/myentity.cpp
 	)
 	target_link_libraries(game
 		${ALL_GRAPHICS_LIBS}

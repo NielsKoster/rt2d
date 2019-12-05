@@ -11,6 +11,8 @@
 
 #include <rt2d/scene.h>
 
+#include "myentity.h"
+
 /// @brief The MyScene class is the Scene implementation.
 class MyScene : public Scene
 {
@@ -26,6 +28,7 @@ public:
 	virtual void update(float deltaTime);
 
 private:
+	MyEntity* myentity;
 };
 
 #endif /* SCENE00_H */
