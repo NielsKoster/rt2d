@@ -5,16 +5,28 @@
 
 MyScene::MyScene() : Scene()
 {
-	myentity = new MyEntity();
-	this->addChild(myentity);
-	myentity->position = Point2(SWIDTH / 2, SHEIGHT / 2);
-}
+	startbutton = new MyEntity();
+	optionsbutton = new MyEntity();
+	creditsbutton = new MyEntity();
 
+	this->addChild(startbutton);
+	this->addChild(optionsbutton);
+	this->addChild(creditsbutton);
+
+	startbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 - 100);
+	optionsbutton->position = Point2(SWIDTH / 2 - 100, SHEIGHT / 2 + 50);
+	creditsbutton->position = Point2(SWIDTH / 2 + 100, SHEIGHT / 2 + 50);
+}
 
 MyScene::~MyScene()
 {
-	this->removeChild(myentity);
-	delete myentity;
+	this->removeChild(startbutton);
+	this->removeChild(optionsbutton);
+	this->removeChild(creditsbutton);
+
+	delete startbutton;
+	delete optionsbutton;
+	delete creditsbutton;
 }
 
 void MyScene::update(float deltaTime)
@@ -26,7 +38,10 @@ void MyScene::update(float deltaTime)
 		this->stop();
 	}
 
+	// ###############################################################
+	// Register clicks
+	// ###############################################################
 	if (input()->getMouseDown(GLFW_MOUSE_BUTTON_1)) {
-		std::cout << "Clicked!" << std::endl;
+		std::cout << "Clickety click" << std::endl;
 	}
 }

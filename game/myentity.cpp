@@ -8,15 +8,16 @@
 
 MyEntity::MyEntity() : Entity()
 {
-	this->addSprite("assets/hex_cursor.tga");
-	this->sprite()->color = RED;
+	this->addSprite("assets/hexagon.tga");
+	this->sprite()->color =	WHITE;
+	this->scale = Point2(0.5, 0.5);
 }
 
 MyEntity::~MyEntity()
 {
-
 }
 
 void MyEntity::update(float deltaTime)
 {
+	
 }

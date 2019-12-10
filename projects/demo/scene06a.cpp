@@ -43,9 +43,9 @@ void Scene06a::update(float deltaTime)
 	// - account for camera offset (center of the screen)
 	// - update mouse cursor text
 	// ###############################################################
-	int mousex = input()->getMouseX() + camera()->position.x - SWIDTH/2;
-	int mousey = input()->getMouseY() + camera()->position.y - SHEIGHT/2;
-	Point2 mousepos = Point2(mousex,mousey);
+	int mousex = input()->getMouseX() + camera()->position.x - SWIDTH / 2;
+	int mousey = input()->getMouseY() + camera()->position.y - SHEIGHT / 2;
+	Point2 mousepos = Point2(mousex, mousey);
 
 	std::stringstream cursortxt;
 	cursortxt << "cursor (" << mousepos.x << "," << mousepos.y << ")";
@@ -55,16 +55,17 @@ void Scene06a::update(float deltaTime)
 
 	// find the tile in hexfield that is closest to mousepos
 	size_t activeid = hexfield->findnearest(mousepos);
-	Pointi activecell = Pointi(0,0);
+	Pointi activecell = Pointi(0, 0);
 
 	// loop over grid to color the tile
 	size_t counter = 0;
-	for (size_t y=0; y<hexfield->rows; y++) {
-		for (size_t x=0; x<hexfield->cols ; x++) {
-			if ( activeid == counter ) {
-				activecell = Pointi(x,y);
+	for (size_t y = 0; y < hexfield->rows; y++) {
+		for (size_t x = 0; x < hexfield->cols; x++) {
+			if (activeid == counter) {
+				activecell = Pointi(x, y);
 				spritebatch[counter]->color.a = 255;
-			} else {
+			}
+			else {
 				spritebatch[counter]->color.a = 160;
 			}
 			counter++;

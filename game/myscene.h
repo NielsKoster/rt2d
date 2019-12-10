@@ -28,7 +28,9 @@ public:
 	virtual void update(float deltaTime);
 
 private:
-	MyEntity* myentity;
+	MyEntity* startbutton;
+	MyEntity* optionsbutton;
+	MyEntity* creditsbutton;
 };
 
 #endif /* SCENE00_H */
