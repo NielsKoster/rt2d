@@ -1,9 +1,3 @@
-/**
- * This class describes MyScene behavior.
- *
- * Copyright 2015 Your Name <you@yourhost.com>
- */
-
 #include <fstream>
 #include <sstream>
 
@@ -30,5 +24,9 @@ void MyScene::update(float deltaTime)
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
 		this->stop();
+	}
+
+	if (input()->getMouseDown(GLFW_MOUSE_BUTTON_1)) {
+		std::cout << "Clicked!" << std::endl;
 	}
 }
