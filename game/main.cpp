@@ -27,7 +27,7 @@ int main( void )
 	MyScene* myscene = new MyScene(); // create Scene on the heap
 	while(myscene->isRunning()) { // check status of Scene every frame
 		core.run(myscene); // update and render the current scene
-		core.showFrameRate(1); // show framerate in output every n seconds
+		core.showFrameRate(10); // show framerate in output every n seconds
 	}
 	core.cleanup(); // cleanup ResourceManager (Textures + Meshes, but not Shaders)
 	delete myscene; // delete Scene and everything in it from the heap to make space for next Scene

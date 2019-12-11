@@ -27,8 +27,10 @@ public:
 	/// @return void
 	virtual void update(float deltaTime);
 
+	void SetupHexGrid();
+
 private:
-	MyEntity* myentity;
+	MyEntity* hexagon;
 };
 
 #endif /* SCENE00_H */
