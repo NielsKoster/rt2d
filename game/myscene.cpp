@@ -19,12 +19,20 @@ MyScene::~MyScene()
 {
 	this->removeChild(hexagon);
 	delete hexagon;
+
+	/*deallocate the array
+	for (int i = 0; i < rows; i++)
+		delete[] arr[i];
+	delete[] arr;
+	*/
 }
 
 void MyScene::SetupHexGrid() {
 
 	float hexoffsetx = 0;
 	float hexoffsety = 0;
+
+	float counter = 0;
 
 	//float hexwidth = SWIDTH;
 	//float hexheight = SWIDTH;
@@ -35,10 +43,12 @@ void MyScene::SetupHexGrid() {
 
 	bool offsetline = false;
 
-	for (int column = 0; column < 60; column = column + 1) {
-		for (int rows = 0; rows < 50; rows = rows + 1) {
+	for (int column = 0; column < 58; column = column + 1) {
+		for (int rows = 0; rows < 21; rows = rows + 1) {
 			hexagon = new MyEntity();
 			this->addChild(hexagon);
+			//MyEntity hexagonarr[counter] = hexagon;
+			counter++;
 			hexagon->scale = Point2(spritewidth, spriteheight);
 			hexagon->position.x = hexagon->position.x + hexoffsetx;
 			hexagon->position.y = hexagon->position.y + hexoffsety;
@@ -76,5 +86,14 @@ void MyScene::update(float deltaTime)
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
 		this->stop();
+	}
+
+	//Get mouse coordinates
+	int mousex = input()->getMouseX();
+	int mousey = input()->getMouseY();
+
+
+	if (mousex == hexagon->position.x && mousey == hexagon->position.y) {
+		hexagon->Selected();
 	}
 }

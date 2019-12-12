@@ -19,5 +19,8 @@ MyEntity::~MyEntity()
 
 void MyEntity::update(float deltaTime)
 {
-	
+}
+
+void MyEntity::Selected() {
+	this->sprite()->color = RED;
 }
