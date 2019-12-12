@@ -29,7 +29,8 @@ void MyScene::SetupHexGrid() {
 	//float hexwidth = SWIDTH;
 	//float hexheight = SWIDTH;
 
-	float spriteheight = 0.5;
+
+	float spriteheight = 0.12;
 	float spritewidth = spriteheight * 1.5;
 
 	bool offsetline = false;
@@ -42,7 +43,7 @@ void MyScene::SetupHexGrid() {
 			hexagon->position.x = hexagon->position.x + hexoffsetx;
 			hexagon->position.y = hexagon->position.y + hexoffsety;
 
-			hexoffsetx += 60;
+			hexoffsetx += 64;
 		}
 
 		//Check if the line needs an offset
@@ -58,7 +59,7 @@ void MyScene::SetupHexGrid() {
 
 		//If the line is a line that needs an offset, give it an offset
 		if (offsetline) {
-			hexoffsetx = 30;
+			hexoffsetx = 32;
 		}
 		else {
 			hexoffsetx = 0;
