@@ -69,7 +69,7 @@ void MyScene::SetupHexGrid() {
 		}
 
 		//Horizontal row is full, make a new column
-		hexoffsety += 12.9;
+		hexoffsety += 12.95;
 
 		//If the line is a line that needs an offset, give it an offset
 		if (offsetline) {
