@@ -178,6 +178,8 @@ IF(MAKE_GAME)
 		game/myscene.h
 		game/myentity.h
 		game/myentity.cpp
+		game/player.cpp
+		game/player.h
 	)
 	target_link_libraries(game
 		${ALL_GRAPHICS_LIBS}

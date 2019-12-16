@@ -9,7 +9,6 @@
 MyEntity::MyEntity() : Entity()
 {
 	this->addSprite("assets/hexagon.tga");
-	this->sprite()->color =	GRAY;
 	this->scale = Point2(0.5, 0.5);
 }
 
@@ -23,4 +22,8 @@ void MyEntity::update(float deltaTime)
 
 void MyEntity::Selected() {
 	this->sprite()->color = RED;
+}
+
+void MyEntity::Unselected() {
+	this->sprite()->color = WHITE;
 }

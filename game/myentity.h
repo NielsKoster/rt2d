@@ -27,6 +27,8 @@ public:
 
 	void Selected();
 
+	void Unselected();
+
 private:
 	/* add your private declarations */
 };

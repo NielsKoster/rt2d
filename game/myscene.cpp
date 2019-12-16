@@ -8,12 +8,16 @@
 #include <sstream>
 
 #include "myscene.h"
-#include <vector>
+#include "player.h";
 
 MyScene::MyScene() : Scene()
 {
 	hexagons = std::vector<MyEntity*>();
 	SetupHexGrid();
+	player = new Player();
+	this->addChild(player);
+	player->position.x = 360;
+	player->position.y = 480;
 }
 
 
@@ -23,6 +27,8 @@ MyScene::~MyScene()
 	{
 		delete hexagons[i];
 	}
+
+	delete player;
 }
 
 void MyScene::SetupHexGrid() {
@@ -63,7 +69,7 @@ void MyScene::SetupHexGrid() {
 		}
 
 		//Horizontal row is full, make a new column
-		hexoffsety += 12.5;
+		hexoffsety += 12.9;
 
 		//If the line is a line that needs an offset, give it an offset
 		if (offsetline) {
@@ -91,9 +97,16 @@ void MyScene::update(float deltaTime)
 	int mousey = input()->getMouseY();
 	//Combine them into a Point2
 	Point2 mousepos = Point2(mousex, mousey);
+	//Find the nearest hexagon to the mouse
+	size_t activeid = findnearest(mousepos);
 
-	size_t newactiveid = findnearest(mousepos);
-
-	hexagons[newactiveid]->Selected();
-
+	for (int j = 0; j < hexagons.size(); j++) {
+		if (hexagons[j] == hexagons[activeid]) {
+			hexagons[j]->Selected();
+		}
+		else
+		{
+			hexagons[j]->Unselected();
+		}
+	}
 }
