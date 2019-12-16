@@ -8,23 +8,21 @@
 #include <sstream>
 
 #include "myscene.h"
+#include <vector>
 
 MyScene::MyScene() : Scene()
 {
+	hexagons = std::vector<MyEntity*>();
 	SetupHexGrid();
 }
 
 
 MyScene::~MyScene()
 {
-	this->removeChild(hexagon);
-	delete hexagon;
-
-	/*deallocate the array
-	for (int i = 0; i < rows; i++)
-		delete[] arr[i];
-	delete[] arr;
-	*/
+	for (int i = 0; i < hexagons.size(); i++) 
+	{
+		delete hexagons[i];
+	}
 }
 
 void MyScene::SetupHexGrid() {
@@ -45,9 +43,9 @@ void MyScene::SetupHexGrid() {
 
 	for (int column = 0; column < 58; column = column + 1) {
 		for (int rows = 0; rows < 21; rows = rows + 1) {
-			hexagon = new MyEntity();
+			MyEntity* hexagon = new MyEntity();
+			hexagons.push_back(hexagon);
 			this->addChild(hexagon);
-			//MyEntity hexagonarr[counter] = hexagon;
 			counter++;
 			hexagon->scale = Point2(spritewidth, spriteheight);
 			hexagon->position.x = hexagon->position.x + hexoffsetx;
@@ -91,9 +89,11 @@ void MyScene::update(float deltaTime)
 	//Get mouse coordinates
 	int mousex = input()->getMouseX();
 	int mousey = input()->getMouseY();
+	//Combine them into a Point2
+	Point2 mousepos = Point2(mousex, mousey);
 
+	size_t newactiveid = findnearest(mousepos);
 
-	if (mousex == hexagon->position.x && mousey == hexagon->position.y) {
-		hexagon->Selected();
-	}
+	hexagons[newactiveid]->Selected();
+
 }

@@ -9,7 +9,7 @@
 MyEntity::MyEntity() : Entity()
 {
 	this->addSprite("assets/hexagon.tga");
-	this->sprite()->color =	WHITE;
+	this->sprite()->color =	GRAY;
 	this->scale = Point2(0.5, 0.5);
 }
 

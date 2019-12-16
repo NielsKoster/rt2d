@@ -29,8 +29,29 @@ public:
 
 	void SetupHexGrid();
 
+	size_t findnearest(Point2 pos)
+	{
+		size_t n = 0;
+		float shortest = 100000.0f;
+		size_t counter = 0;
+		for (size_t y = 0; y < 58; y++) {
+			for (size_t x = 0; x < 21; x++) {
+				Vector2 p = Vector2(hexagons[counter]->position, pos);
+				float d = p.getLength();
+				if (d < shortest) {
+					shortest = d;
+					n = counter;
+				}
+				counter++;
+			}
+		}
+		return n;
+	}
+
+
 private:
-	MyEntity* hexagon;
+	//MyEntity* hexagon;
+	std::vector<MyEntity*> hexagons;
 };
 
 #endif /* SCENE00_H */
