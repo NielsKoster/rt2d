@@ -11,6 +11,8 @@ public:
 	/// @brief Destructor
 	virtual ~Player();
 
+	void NavigateToPoint(Point2 destinationpos);
+
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void

@@ -10,6 +10,7 @@ MyEntity::MyEntity() : Entity()
 {
 	this->addSprite("assets/hexagon.tga");
 	this->scale = Point2(0.5, 0.5);
+	Point2 position = this->position;
 }
 
 MyEntity::~MyEntity()
