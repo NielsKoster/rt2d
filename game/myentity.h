@@ -25,6 +25,8 @@ public:
 	/// @return void
 	virtual void update(float deltaTime);
 
+	void Highlighted();
+
 	void Selected();
 
 	void Unselected();

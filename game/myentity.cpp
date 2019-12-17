@@ -20,10 +20,16 @@ void MyEntity::update(float deltaTime)
 {
 }
 
+void MyEntity::Highlighted() {
+	this->addSprite("assets/hexagon_selected.tga");
+	this->sprite()->color = GRAY;
+}
+
 void MyEntity::Selected() {
 	this->addSprite("assets/hexagon_selected.tga");
 	this->sprite()->color = RED;
 }
+
 
 void MyEntity::Unselected() {
 	this->addSprite("assets/hexagon.tga");

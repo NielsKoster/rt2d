@@ -101,10 +101,16 @@ void MyScene::update(float deltaTime)
 	size_t activeid = findnearest(mousepos);
 
 	for (int j = 0; j < hexagons.size(); j++) {
-		if (hexagons[j] == hexagons[activeid]) {
+		if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
+		{
 			hexagons[j]->Selected();
 		}
-		else
+
+		else if (hexagons[j] == hexagons[activeid]) {
+			hexagons[j]->Highlighted();
+		}
+		
+		else 
 		{
 			hexagons[j]->Unselected();
 		}
