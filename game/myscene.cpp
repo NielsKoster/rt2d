@@ -20,16 +20,20 @@ MyScene::MyScene() : Scene()
 	mainmenubutton = new Button();
 	quitbutton = new Button();
 
-	//Menu's
-	this->addChild(menu);
-	menu->addSprite("color.tga");
-	menu->position.x = SWIDTH / 2;
-	menu->position.y = SHEIGHT / 2;
-	this->addChild(mainmenubutton);
-
 	this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
 	player->position.y = hexagons[600]->position.y - 5;
+
+	//Menu's
+	this->addChild(menu);
+	menu->addSprite("assets/color.tga");
+	menu->position.x = 9999;
+	menu->position.y = SHEIGHT / 2;
+	menu->scale = Point2(1.5, 1);
+	menu->addChild(mainmenubutton);
+	menu->addChild(quitbutton);
+
+
 }
 
 
@@ -94,7 +98,6 @@ void MyScene::SetupHexGrid() {
 			hexoffsetx = 0;
 		}
 	}
-	std::cout << "Hexagons placed!" << std::endl;
 }
 
 void MyScene::update(float deltaTime)
@@ -103,9 +106,12 @@ void MyScene::update(float deltaTime)
 	// Escape key puts menu on screen
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
-		this->stop();
-		//menu->position.x = SWIDTH / 2;
-		//menu->position.y = SHEIGHT / 2;
+		if (menu->position.x != SWIDTH / 2) {
+			menu->position.x = SWIDTH / 2;
+		} 
+		else {
+			menu->position.x = 9999;
+		}
 	}
 
 	//Get mouse coordinates
