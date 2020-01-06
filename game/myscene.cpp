@@ -26,16 +26,25 @@ MyScene::MyScene() : Scene()
 
 	//Menu's
 	this->addChild(menu);
+	this->addChild(mainmenubutton);
+	this->addChild(quitbutton);
+
 	menu->addSprite("assets/color.tga");
+	mainmenubutton->addSprite("assets/mainmenubutton.tga");
+	quitbutton->addSprite("assets/quitbutton.tga");
+
 	menu->position.x = 9999;
+	mainmenubutton->position.x = 9999;
+	quitbutton->position.x = 9999;
+	
 	menu->position.y = SHEIGHT / 2;
-	menu->scale = Point2(1.5, 1);
-	menu->addChild(mainmenubutton);
-	menu->addChild(quitbutton);
-
-
+	mainmenubutton->position.y = SHEIGHT / 2;
+	quitbutton->position.y = SHEIGHT / 2;
+	
+	menu->scale = Point2(1, 1.5);
+	mainmenubutton->scale = Point2(0.75, 0.75);
+	quitbutton->scale = Point2(0.75, 0.75);
 }
-
 
 MyScene::~MyScene()
 {
@@ -108,9 +117,16 @@ void MyScene::update(float deltaTime)
 	if (input()->getKeyUp(KeyCode::Escape)) {
 		if (menu->position.x != SWIDTH / 2) {
 			menu->position.x = SWIDTH / 2;
+			mainmenubutton->position.x = SWIDTH / 2;
+			quitbutton->position.x = SWIDTH / 2;
+
+			mainmenubutton->position.y = (SHEIGHT / 2);
+			quitbutton->position.y = (SHEIGHT / 2) + 125;
 		} 
 		else {
 			menu->position.x = 9999;
+			mainmenubutton->position.x = 9999;
+			quitbutton->position.x = 9999;
 		}
 	}
 
