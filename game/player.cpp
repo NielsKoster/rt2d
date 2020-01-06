@@ -1,7 +1,7 @@
 /**
- * This class describes MyEntity behavior.
+ * This class describes player behavior.
  *
- * Copyright 2015 Your Name <you@yourhost.com>
+ * Copyright 2020 Niels Koster
  */
 
 #include "player.h"
@@ -19,10 +19,8 @@ Player::~Player()
 void Player::NavigateToPoint(Point2 destinationpos)
 {
 	Point2 playerpos = this->position;
-
-	/*while (playerpos != destinationpos) {
-
-	}*/
+	Vector2 distance = Vector2(playerpos - destinationpos);
+	this->position = playerpos -= distance;
 }
 
 void Player::update(float deltaTime)

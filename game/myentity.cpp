@@ -1,7 +1,7 @@
 /**
  * This class describes MyEntity behavior.
  *
- * Copyright 2015 Your Name <you@yourhost.com>
+ * Copyright 2020 Niels Koster
  */
 
 #include "myentity.h"

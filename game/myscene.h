@@ -1,8 +1,5 @@
 /**
- * Copyright 2015 Your Name <you@yourhost.com>
- *
- * @file myscene.h
- *
+ * Copyright 2020 Niels Koster
  * @brief description of MyScene behavior.
  */
 
@@ -54,6 +51,7 @@ private:
 	//MyEntity* hexagon;
 	std::vector<MyEntity*> hexagons;
 	Player* player;
+	MyEntity* menu;
 };
 
 #endif /* SCENE00_H */

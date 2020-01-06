@@ -1,11 +1,12 @@
 /**
  * This class describes MyScene behavior.
  *
- * Copyright 2015 Your Name <you@yourhost.com>
+ * Copyright 2020 Niels Koster
  */
 
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 #include "myscene.h"
 #include "player.h";
@@ -15,6 +16,10 @@ MyScene::MyScene() : Scene()
 	hexagons = std::vector<MyEntity*>();
 	SetupHexGrid();
 	player = new Player();
+	menu = new MyEntity();
+	menu->addSprite("assets/menu.tga");
+	menu->position.x = 999;
+	menu->position.y = 999;
 	this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
 	player->position.y = hexagons[600]->position.y - 5;
@@ -88,7 +93,19 @@ void MyScene::update(float deltaTime)
 	// Escape key stops the Scene
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
-		this->stop();
+		if (menu->position.x != SWIDTH / 2)
+		{
+			menu->position.x = SWIDTH / 2;
+			menu->position.y = SHEIGHT / 2;
+			this->addChild(menu);
+		}
+		else {
+			menu->position.x = 999;
+			menu->position.y = 999;
+			this->removeChild(menu);
+		}
+		
+		//this->stop();
 	}
 
 	//Get mouse coordinates
@@ -108,18 +125,18 @@ void MyScene::update(float deltaTime)
 			hexagons[j]->Selected();
 
 			//Only do the calculation for the new path once 
-			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
+			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) 
+			{
 			//Let player calculate a path to the destination
-			std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
+				player->NavigateToPoint(hexagons[activeid]->position);
 			}
 		}
-
-		//If the payer 
+		//Highlight the hexagon if the mouse hovers over it
 		else if (hexagons[j] == hexagons[activeid]) {
 			hexagons[j]->Highlighted();
 		}
 		
-		//If neither are true, then just keep it as a gray hexagon
+		//Else just keep it as a gray hexagon
 		else 
 		{
 			hexagons[j]->Unselected();
