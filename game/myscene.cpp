@@ -9,12 +9,24 @@
 
 #include "myscene.h"
 #include "player.h";
+#include "button.h";
 
 MyScene::MyScene() : Scene()
 {
 	hexagons = std::vector<MyEntity*>();
 	SetupHexGrid();
 	player = new Player();
+	menu = new MyEntity();
+	mainmenubutton = new Button();
+	quitbutton = new Button();
+
+	//Menu's
+	this->addChild(menu);
+	menu->addSprite("color.tga");
+	menu->position.x = SWIDTH / 2;
+	menu->position.y = SHEIGHT / 2;
+	this->addChild(mainmenubutton);
+
 	this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
 	player->position.y = hexagons[600]->position.y - 5;
@@ -29,6 +41,9 @@ MyScene::~MyScene()
 	}
 
 	delete player;
+	delete menu;
+	delete mainmenubutton;
+	delete quitbutton;
 }
 
 void MyScene::SetupHexGrid() {
@@ -85,10 +100,12 @@ void MyScene::SetupHexGrid() {
 void MyScene::update(float deltaTime)
 {
 	// ###############################################################
-	// Escape key stops the Scene
+	// Escape key puts menu on screen
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
 		this->stop();
+		//menu->position.x = SWIDTH / 2;
+		//menu->position.y = SHEIGHT / 2;
 	}
 
 	//Get mouse coordinates
@@ -106,11 +123,11 @@ void MyScene::update(float deltaTime)
 		{
 			//Select that hexagon
 			hexagons[j]->Selected();
-
 			//Only do the calculation for the new path once 
 			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
 			//Let player calculate a path to the destination
-			std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
+			//std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
+				player->NavigateToPoint(hexagons[j]->position);
 			}
 		}
 

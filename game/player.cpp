@@ -18,11 +18,7 @@ Player::~Player()
 
 void Player::NavigateToPoint(Point2 destinationpos)
 {
-	Point2 playerpos = this->position;
 
-	/*while (playerpos != destinationpos) {
-
-	}*/
 }
 
 void Player::update(float deltaTime)
