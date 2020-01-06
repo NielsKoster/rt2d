@@ -157,6 +157,7 @@ IF(MAKE_START)
 		start/myentity.h
 		start/myscene.cpp
 		start/myscene.h
+
 	)
 	target_link_libraries(start
 		${ALL_GRAPHICS_LIBS}
@@ -178,8 +179,10 @@ IF(MAKE_GAME)
 		game/myscene.h
 		game/myentity.h
 		game/myentity.cpp
-		game/player.cpp
 		game/player.h
+		game/player.cpp
+		game/button.h
+		game/button.cpp
 	)
 	target_link_libraries(game
 		${ALL_GRAPHICS_LIBS}

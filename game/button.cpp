@@ -1,14 +1,26 @@
+/**
+ * This class describes MyEntity behavior.
+ *
+ * Copyright 2015 Your Name <you@yourhost.com>
+ */
+
 #include "button.h"
-#include "sprite.h"
 
-Button::Button() : Entity() {
-	
+Button::Button() : Entity()
+{
+	this->addSprite("assets/button.tga");
 }
 
-Button::~Button() {
+Button::~Button()
+{
+}
+
+void Button::update(float deltaTime)
+{
+}
+
+void Button::OnClick()
+{
 
 }
 
-void Button::update(float deltatime) {
-
-}

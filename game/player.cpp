@@ -18,12 +18,9 @@ Player::~Player()
 
 void Player::NavigateToPoint(Point2 destinationpos)
 {
-	Point2 playerpos = this->position;
-	Vector2 distance = Vector2(playerpos - destinationpos);
-	this->position = playerpos -= distance;
+
 }
 
 void Player::update(float deltaTime)
 {
 }
-

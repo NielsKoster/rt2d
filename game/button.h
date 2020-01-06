@@ -1,18 +1,24 @@
-#pragma once
+#ifndef BUTTON_H
+#define BUTTON_H
 
-#include <rt2d/entity.h>
+#include <entity.h>
 
-class Button : public Button
+class Button : public Entity
 {
 public:
-		
+	/// @brief Constructor
 	Button();
-	virtual ~Button()
+	/// @brief Destructor
+	virtual ~Button();
 
-	virtual void update(float deltatime);
+	/// @brief update is automatically called every frame
+	/// @param deltaTime the elapsed time in seconds
+	/// @return void
+	virtual void update(float deltaTime);
+
+	void OnClick();
 
 private:
-	//something
 };
 
-#endif
+#endif /* BUTTON_H */

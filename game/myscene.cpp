@@ -10,6 +10,7 @@
 
 #include "myscene.h"
 #include "player.h";
+#include "button.h";
 
 MyScene::MyScene() : Scene()
 {
@@ -17,23 +18,47 @@ MyScene::MyScene() : Scene()
 	SetupHexGrid();
 	player = new Player();
 	menu = new MyEntity();
-	menu->addSprite("assets/menu.tga");
-	menu->position.x = 999;
-	menu->position.y = 999;
+	mainmenubutton = new Button();
+	quitbutton = new Button();
+	bool menuselected;
+
 	this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
 	player->position.y = hexagons[600]->position.y - 5;
-}
 
+	//Menu's
+	this->addChild(menu);
+	this->addChild(mainmenubutton);
+	this->addChild(quitbutton);
+
+	menu->addSprite("assets/color.tga");
+	mainmenubutton->addSprite("assets/mainmenubutton.tga");
+	quitbutton->addSprite("assets/quitbutton.tga");
+
+	menu->position.x = 9999;
+	mainmenubutton->position.x = 9999;
+	quitbutton->position.x = 9999;
+
+	menu->position.y = SHEIGHT / 2;
+	mainmenubutton->position.y = SHEIGHT / 2;
+	quitbutton->position.y = SHEIGHT / 2;
+
+	menu->scale = Point2(1, 1.5);
+	mainmenubutton->scale = Point2(0.75, 0.75);
+	quitbutton->scale = Point2(0.75, 0.75);
+}
 
 MyScene::~MyScene()
 {
-	for (int i = 0; i < hexagons.size(); i++) 
+	for (int i = 0; i < hexagons.size(); i++)
 	{
 		delete hexagons[i];
 	}
 
 	delete player;
+	delete menu;
+	delete mainmenubutton;
+	delete quitbutton;
 }
 
 void MyScene::SetupHexGrid() {
@@ -84,28 +109,29 @@ void MyScene::SetupHexGrid() {
 			hexoffsetx = 0;
 		}
 	}
-	std::cout << "Hexagons placed!" << std::endl;
 }
 
 void MyScene::update(float deltaTime)
 {
 	// ###############################################################
-	// Escape key stops the Scene
+	// Escape key puts menu on screen
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
-		if (menu->position.x != SWIDTH / 2)
-		{
+		if (menu->position.x != SWIDTH / 2) {
 			menu->position.x = SWIDTH / 2;
-			menu->position.y = SHEIGHT / 2;
-			this->addChild(menu);
+			mainmenubutton->position.x = SWIDTH / 2;
+			quitbutton->position.x = SWIDTH / 2;
+
+			mainmenubutton->position.y = (SHEIGHT / 2);
+			quitbutton->position.y = (SHEIGHT / 2) + 125;
+			menuselected = true;
 		}
 		else {
-			menu->position.x = 999;
-			menu->position.y = 999;
-			this->removeChild(menu);
+			menu->position.x = 9999;
+			mainmenubutton->position.x = 9999;
+			quitbutton->position.x = 9999;
+			menuselected = false;
 		}
-		
-		//this->stop();
 	}
 
 	//Get mouse coordinates
@@ -113,33 +139,35 @@ void MyScene::update(float deltaTime)
 	int mousey = input()->getMouseY();
 	//Combine them into a Point2
 	Point2 mousepos = Point2(mousex, mousey);
-	//Find the nearest hexagon to the mouse
-	size_t activeid = findnearest(mousepos);
 
-	//Search through all hexagons 
-	for (int j = 0; j < hexagons.size(); j++) {
-		//If a the mouse hovers over a hexagon and the player clicks the left mouse button...
-		if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
-		{
-			//Select that hexagon
-			hexagons[j]->Selected();
+	if (!menuselected) {
+		//Find the nearest hexagon to the mouse
+		size_t activeid = findnearest(mousepos);
 
-			//Only do the calculation for the new path once 
-			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) 
+		//Search through all hexagons
+		for (int j = 0; j < hexagons.size(); j++) {
+			//If a the mouse hovers over a hexagon and the player clicks the left mouse button...
+			if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
 			{
-			//Let player calculate a path to the destination
-				player->NavigateToPoint(hexagons[activeid]->position);
+				//Select that hexagon
+				hexagons[j]->Selected();
+				//Only do the calculation for the new path once
+				if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
+					//Let player calculate a path to the destination
+					//std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
+					player->NavigateToPoint(hexagons[j]->position);
+				}
 			}
-		}
-		//Highlight the hexagon if the mouse hovers over it
-		else if (hexagons[j] == hexagons[activeid]) {
-			hexagons[j]->Highlighted();
-		}
-		
-		//Else just keep it as a gray hexagon
-		else 
-		{
-			hexagons[j]->Unselected();
+			//If the payer
+			else if (hexagons[j] == hexagons[activeid]) {
+				hexagons[j]->Highlighted();
+			}
+
+			//If neither are true, then just keep it as a gray hexagon
+			else
+			{
+				hexagons[j]->Unselected();
+			}
 		}
 	}
 }

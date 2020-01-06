@@ -19,7 +19,6 @@ public:
 	virtual void update(float deltaTime);
 
 private:
-	/* add your private declarations */
 };
 
 #endif /* PLAYER_H */

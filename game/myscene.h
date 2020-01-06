@@ -10,6 +10,7 @@
 
 #include "myentity.h"
 #include "player.h"
+#include "button.h"
 
 /// @brief The MyScene class is the Scene implementation.
 class MyScene : public Scene
@@ -52,6 +53,9 @@ private:
 	std::vector<MyEntity*> hexagons;
 	Player* player;
 	MyEntity* menu;
+	Button* mainmenubutton;
+	Button* quitbutton;
+	bool menuselected;
 };
 
 #endif /* SCENE00_H */
