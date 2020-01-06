@@ -19,6 +19,7 @@ MyScene::MyScene() : Scene()
 	menu = new MyEntity();
 	mainmenubutton = new Button();
 	quitbutton = new Button();
+	bool menuselected;
 
 	this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
@@ -122,11 +123,13 @@ void MyScene::update(float deltaTime)
 
 			mainmenubutton->position.y = (SHEIGHT / 2);
 			quitbutton->position.y = (SHEIGHT / 2) + 125;
+			menuselected = true;
 		} 
 		else {
 			menu->position.x = 9999;
 			mainmenubutton->position.x = 9999;
 			quitbutton->position.x = 9999;
+			menuselected = false;
 		}
 	}
 
@@ -135,33 +138,35 @@ void MyScene::update(float deltaTime)
 	int mousey = input()->getMouseY();
 	//Combine them into a Point2
 	Point2 mousepos = Point2(mousex, mousey);
-	//Find the nearest hexagon to the mouse
-	size_t activeid = findnearest(mousepos);
 
-	//Search through all hexagons 
-	for (int j = 0; j < hexagons.size(); j++) {
-		//If a the mouse hovers over a hexagon and the player clicks the left mouse button...
-		if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
-		{
-			//Select that hexagon
-			hexagons[j]->Selected();
-			//Only do the calculation for the new path once 
-			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
-			//Let player calculate a path to the destination
-			//std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
-				player->NavigateToPoint(hexagons[j]->position);
+	if (!menuselected) {
+		//Find the nearest hexagon to the mouse
+		size_t activeid = findnearest(mousepos);
+
+		//Search through all hexagons 
+		for (int j = 0; j < hexagons.size(); j++) {
+			//If a the mouse hovers over a hexagon and the player clicks the left mouse button...
+			if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
+			{
+				//Select that hexagon
+				hexagons[j]->Selected();
+				//Only do the calculation for the new path once 
+				if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
+					//Let player calculate a path to the destination
+					//std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
+					player->NavigateToPoint(hexagons[j]->position);
+				}
 			}
-		}
+			//If the payer 
+			else if (hexagons[j] == hexagons[activeid]) {
+				hexagons[j]->Highlighted();
+			}
 
-		//If the payer 
-		else if (hexagons[j] == hexagons[activeid]) {
-			hexagons[j]->Highlighted();
-		}
-		
-		//If neither are true, then just keep it as a gray hexagon
-		else 
-		{
-			hexagons[j]->Unselected();
+			//If neither are true, then just keep it as a gray hexagon
+			else
+			{
+				hexagons[j]->Unselected();
+			}
 		}
 	}
 }

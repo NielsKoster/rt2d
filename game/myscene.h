@@ -58,6 +58,7 @@ private:
 	MyEntity* menu;
 	Button* mainmenubutton;
 	Button* quitbutton;
+	bool menuselected;
 };
 
 #endif /* SCENE00_H */
