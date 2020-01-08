@@ -21,8 +21,6 @@ DefaultScene::DefaultScene() : Scene()
 	menu = new BasicEntity();
 	mainmenubutton = new Button();
 	quitbutton = new Button();
-	bool menuselected;
-	menuselected = false;
 
 	this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
@@ -48,6 +46,9 @@ DefaultScene::DefaultScene() : Scene()
 	menu->scale = Point2(1, 1.5);
 	mainmenubutton->scale = Point2(0.75, 0.75);
 	quitbutton->scale = Point2(0.75, 0.75);
+
+	bool menuselected;
+	menuselected = false;
 }
 
 DefaultScene::~DefaultScene()
@@ -125,7 +126,7 @@ void DefaultScene::update(float deltaTime)
 	// ###############################################################
 	// Escape key puts menu on screen
 	// ###############################################################
-	if (input()->getKeyUp(KeyCode::Escape)) {
+	if (input()->getKeyDown(KeyCode::Escape)) {
 		if (menu->position.x != SWIDTH / 2) {
 			menu->position.x = SWIDTH / 2;
 			mainmenubutton->position.x = SWIDTH / 2;

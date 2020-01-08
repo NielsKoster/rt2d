@@ -4,35 +4,37 @@
  * Copyright 2015 Your Name <you@yourhost.com>
  */
 
-#include "myentity.h"
+#include "hexagon.h"
 
-MyEntity::MyEntity() : Entity()
+Hexagon::Hexagon() : Entity()
 {
 	this->addSprite("assets/hexagon.tga");
 	this->scale = Point2(0.5, 0.5);
 	Point2 position = this->position;
+
+	//MyEntity nwNeigh;
 }
 
-MyEntity::~MyEntity()
+Hexagon::~Hexagon()
 {
 }
 
-void MyEntity::update(float deltaTime)
+void Hexagon::update(float deltaTime)
 {
 }
 
-void MyEntity::Highlighted() {
+void Hexagon::Highlighted() {
 	this->addSprite("assets/hexagon_selected.tga");
 	this->sprite()->color = GRAY;
 }
 
-void MyEntity::Selected() {
+void Hexagon::Selected() {
 	this->addSprite("assets/hexagon_selected.tga");
 	this->sprite()->color = RED;
 }
 
 
-void MyEntity::Unselected() {
+void Hexagon::Unselected() {
 	this->addSprite("assets/hexagon.tga");
 	this->sprite()->color = GRAY;
 }
