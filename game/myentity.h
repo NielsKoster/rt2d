@@ -3,19 +3,19 @@
  * @brief description of MyEntity behavior.
  */
 
-#ifndef HEXAGON_H
-#define HEXAGON_H
+#ifndef MYENTITY_H
+#define MYENTITY_H
 
 #include <rt2d/entity.h>
 
 /// @brief The MyEntity class is the Entity implementation.
-class Hexagon : public Entity
+class MyEntity : public Entity
 {
 public:
 	/// @brief Constructor
-	Hexagon();
+	MyEntity();
 	/// @brief Destructor
-	virtual ~Hexagon();
+	virtual ~MyEntity();
 
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds

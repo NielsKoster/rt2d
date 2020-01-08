@@ -3,24 +3,23 @@
  * @brief description of MyScene behavior.
  */
 
-#ifndef DEFAULTSCENE_H
-#define DEFAULTSCENE_H
+#ifndef MYSCENE_H
+#define MYSCENE_H
 
 #include <rt2d/scene.h>
 
-#include "hexagon.h"
+#include "myentity.h"
 #include "player.h"
 #include "button.h"
-#include <entity.h>
 
 /// @brief The MyScene class is the Scene implementation.
-class DefaultScene : public Scene
+class MyScene : public Scene
 {
 public:
 	/// @brief Constructor
-	DefaultScene();
+	MyScene();
 	/// @brief Destructor
-	virtual ~DefaultScene();
+	virtual ~MyScene();
 
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds
@@ -51,12 +50,12 @@ public:
 
 private:
 	//MyEntity* hexagon;
-	std::vector<Hexagon*> hexagons;
+	std::vector<MyEntity*> hexagons;
 	Player* player;
-	Entity* menu;
+	MyEntity* menu;
 	Button* mainmenubutton;
 	Button* quitbutton;
 	bool menuselected;
 };
 
-#endif /* DEFAULTSCENE_H */
+#endif /* SCENE00_H */
