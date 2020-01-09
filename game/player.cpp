@@ -1,7 +1,7 @@
 /**
- * This class describes player behavior.
+ * This class describes MyEntity behavior.
  *
- * Copyright 2020 Niels Koster
+ * Copyright 2015 Your Name <you@yourhost.com>
  */
 
 #include "player.h"
@@ -24,3 +24,4 @@ void Player::NavigateToPoint(Point2 destinationpos)
 void Player::update(float deltaTime)
 {
 }
+

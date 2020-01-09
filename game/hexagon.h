@@ -1,5 +1,8 @@
 /**
- * Copyright 2020 Niels Koster
+ * Copyright 2015 Your Name <you@yourhost.com>
+ *
+ * @file myentity.h
+ *
  * @brief description of MyEntity behavior.
  */
 

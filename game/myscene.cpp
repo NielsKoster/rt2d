@@ -1,12 +1,11 @@
 /**
  * This class describes MyScene behavior.
  *
- * Copyright 2020 Niels Koster
+ * Copyright 2015 Your Name <you@yourhost.com>
  */
 
 #include <fstream>
 #include <sstream>
-#include <iostream>
 
 #include "defaultscene.h"
 #include "player.h";
@@ -41,11 +40,11 @@ DefaultScene::DefaultScene() : Scene()
 	menu->position.x = 9999;
 	mainmenubutton->position.x = 9999;
 	quitbutton->position.x = 9999;
-
+	
 	menu->position.y = SHEIGHT / 2;
 	mainmenubutton->position.y = SHEIGHT / 2;
 	quitbutton->position.y = SHEIGHT / 2;
-
+	
 	menu->scale = Point2(1, 1.5);
 	mainmenubutton->scale = Point2(0.75, 0.75);
 	quitbutton->scale = Point2(0.75, 0.75);
@@ -53,7 +52,7 @@ DefaultScene::DefaultScene() : Scene()
 
 DefaultScene::~DefaultScene()
 {
-	for (int i = 0; i < hexagons.size(); i++)
+	for (int i = 0; i < hexagons.size(); i++) 
 	{
 		delete hexagons[i];
 	}
@@ -135,7 +134,7 @@ void DefaultScene::update(float deltaTime)
 			mainmenubutton->position.y = (SHEIGHT / 2);
 			quitbutton->position.y = (SHEIGHT / 2) + 125;
 			menuselected = true;
-		}
+		} 
 		else {
 			menu->position.x = 9999;
 			mainmenubutton->position.x = 9999;
@@ -154,21 +153,21 @@ void DefaultScene::update(float deltaTime)
 		//Find the nearest hexagon to the mouse
 		size_t activeid = findnearest(mousepos);
 
-		//Search through all hexagons
+		//Search through all hexagons 
 		for (int j = 0; j < hexagons.size(); j++) {
 			//If a the mouse hovers over a hexagon and the player clicks the left mouse button...
 			if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
 			{
 				//Select that hexagon
 				hexagons[j]->Selected();
-				//Only do the calculation for the new path once
+				//Only do the calculation for the new path once 
 				if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
 					//Let player calculate a path to the destination
 					//std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
 					player->NavigateToPoint(hexagons[j]->position);
 				}
 			}
-			//If the payer
+			//If the payer 
 			else if (hexagons[j] == hexagons[activeid]) {
 				hexagons[j]->Highlighted();
 			}

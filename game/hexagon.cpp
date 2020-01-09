@@ -1,7 +1,7 @@
 /**
  * This class describes MyEntity behavior.
  *
- * Copyright 2020 Niels Koster
+ * Copyright 2015 Your Name <you@yourhost.com>
  */
 
 #include "hexagon.h"
