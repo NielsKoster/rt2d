@@ -108,22 +108,20 @@ void DefaultScene::SetupHexGrid() {
 			hexoffsetx = 0;
 		}
 	}
-	//AssignNeighbours(hexagons);
+	AssignNeighbours(hexagons);
 }
 
 void DefaultScene:: AssignNeighbours(std::vector<Hexagon*> hexagons)
 {
-	/*for (int i = 0; i < hexagons.size(); i++) {
+	for (int i = 0; i < hexagons.size(); i++) {
 		for (int j = 0; j < hexagons.size(); j++)
 		{
-			if (hexagons[j]->x_coefficient == hexagons[i]->x_coefficient - 1) {
+			if (hexagons[j]->x_coefficient == (hexagons[i]->x_coefficient - 1)) {
 				hexagons[j]->neighbours.push_back(hexagons[i]);
-				std::cout << hexagons[j]->neighbours.size() << std::endl;
+				std::cout << "yeah" << std::endl;
 			}
 		}
 	}
-	*/
-	
 }
 
 void DefaultScene::update(float deltaTime)
@@ -180,11 +178,13 @@ void DefaultScene::update(float deltaTime)
 					else {
 						std::cout << "There are no neighbours!" << std::endl;
 					}
-				}*/
-		
+					*/
+
+				std::cout << hexagons[j]->neighbours.size() << std::endl;
 			}
+		
 			//If the payer 
-			else if (hexagons[j] == hexagons[activeid]) {
+			if (hexagons[j] == hexagons[activeid]) {
 				hexagons[j]->Highlighted();
 			}
 
