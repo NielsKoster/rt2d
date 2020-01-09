@@ -7,22 +7,19 @@
 #include <fstream>
 #include <sstream>
 
-#include "defaultscene.h"
+#include "myscene.h"
 #include "player.h";
 #include "button.h";
-#include "hexagon.h";
-#include "basicentity.h";
 
-DefaultScene::DefaultScene() : Scene()
+MyScene::MyScene() : Scene()
 {
-	hexagons = std::vector<Hexagon*>();
+	hexagons = std::vector<MyEntity*>();
 	SetupHexGrid();
 	player = new Player();
-	menu = new BasicEntity();
+	menu = new MyEntity();
 	mainmenubutton = new Button();
 	quitbutton = new Button();
 	bool menuselected;
-	menuselected = false;
 
 	this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
@@ -50,7 +47,7 @@ DefaultScene::DefaultScene() : Scene()
 	quitbutton->scale = Point2(0.75, 0.75);
 }
 
-DefaultScene::~DefaultScene()
+MyScene::~MyScene()
 {
 	for (int i = 0; i < hexagons.size(); i++) 
 	{
@@ -63,7 +60,7 @@ DefaultScene::~DefaultScene()
 	delete quitbutton;
 }
 
-void DefaultScene::SetupHexGrid() {
+void MyScene::SetupHexGrid() {
 
 	float hexoffsetx = 0;
 	float hexoffsety = 0;
@@ -81,7 +78,7 @@ void DefaultScene::SetupHexGrid() {
 
 	for (int column = 0; column < 58; column = column + 1) {
 		for (int rows = 0; rows < 21; rows = rows + 1) {
-			Hexagon* hexagon = new Hexagon();
+			MyEntity* hexagon = new MyEntity();
 			hexagons.push_back(hexagon);
 			this->addChild(hexagon);
 			counter++;
@@ -113,14 +110,7 @@ void DefaultScene::SetupHexGrid() {
 	}
 }
 
-/*void MyScene::AssignHexNeighbours() {
-	for (int i = 0; i < hexagons.size(); i++) {
-		if (hexagons[i].)
-	}
-}
-*/
-
-void DefaultScene::update(float deltaTime)
+void MyScene::update(float deltaTime)
 {
 	// ###############################################################
 	// Escape key puts menu on screen
