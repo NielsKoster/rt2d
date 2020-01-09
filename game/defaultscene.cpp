@@ -7,23 +7,23 @@
 #include <fstream>
 #include <sstream>
 
-#include "myscene.h"
-#include "player.h";
-#include "button.h";
+#include "defaultscene.h"
 
-MyScene::MyScene() : Scene()
+
+DefaultScene::DefaultScene() : Scene()
 {
-	hexagons = std::vector<MyEntity*>();
+	hexagons = std::vector<Hexagon*>();
 	SetupHexGrid();
 	player = new Player();
-	menu = new MyEntity();
+	menu = new Basicentity();
 	mainmenubutton = new Button();
 	quitbutton = new Button();
 	bool menuselected;
 
-	this->addChild(player);
+	/*this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
 	player->position.y = hexagons[600]->position.y - 5;
+	*/
 
 	//Menu's
 	this->addChild(menu);
@@ -47,7 +47,7 @@ MyScene::MyScene() : Scene()
 	quitbutton->scale = Point2(0.75, 0.75);
 }
 
-MyScene::~MyScene()
+DefaultScene::~DefaultScene()
 {
 	for (int i = 0; i < hexagons.size(); i++) 
 	{
@@ -60,7 +60,7 @@ MyScene::~MyScene()
 	delete quitbutton;
 }
 
-void MyScene::SetupHexGrid() {
+void DefaultScene::SetupHexGrid() {
 
 	float hexoffsetx = 0;
 	float hexoffsety = 0;
@@ -76,9 +76,9 @@ void MyScene::SetupHexGrid() {
 
 	bool offsetline = false;
 
-	for (int column = 0; column < 58; column = column + 1) {
-		for (int rows = 0; rows < 21; rows = rows + 1) {
-			MyEntity* hexagon = new MyEntity();
+	for (int column = 0; column < 56; column++) {
+		for (int rows = 0; rows < 21; rows++) {
+			Hexagon* hexagon = new Hexagon(column, rows);
 			hexagons.push_back(hexagon);
 			this->addChild(hexagon);
 			counter++;
@@ -108,15 +108,32 @@ void MyScene::SetupHexGrid() {
 			hexoffsetx = 0;
 		}
 	}
+	//AssignNeighbours(hexagons);
 }
 
-void MyScene::update(float deltaTime)
+void DefaultScene:: AssignNeighbours(std::vector<Hexagon*> hexagons)
+{
+	/*for (int i = 0; i < hexagons.size(); i++) {
+		for (int j = 0; j < hexagons.size(); j++)
+		{
+			if (hexagons[j]->x_coefficient == hexagons[i]->x_coefficient - 1) {
+				hexagons[j]->neighbours.push_back(hexagons[i]);
+				std::cout << hexagons[j]->neighbours.size() << std::endl;
+			}
+		}
+	}
+	*/
+	
+}
+
+void DefaultScene::update(float deltaTime)
 {
 	// ###############################################################
 	// Escape key puts menu on screen
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
-		if (menu->position.x != SWIDTH / 2) {
+		this->stop();
+		/*if (menu->position.x != SWIDTH / 2) {
 			menu->position.x = SWIDTH / 2;
 			mainmenubutton->position.x = SWIDTH / 2;
 			quitbutton->position.x = SWIDTH / 2;
@@ -130,7 +147,7 @@ void MyScene::update(float deltaTime)
 			mainmenubutton->position.x = 9999;
 			quitbutton->position.x = 9999;
 			menuselected = false;
-		}
+		}*/
 	}
 
 	//Get mouse coordinates
@@ -151,11 +168,20 @@ void MyScene::update(float deltaTime)
 				//Select that hexagon
 				hexagons[j]->Selected();
 				//Only do the calculation for the new path once 
-				if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
-					//Let player calculate a path to the destination
-					//std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
-					player->NavigateToPoint(hexagons[j]->position);
-				}
+			}
+			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
+				//Let player calculate a path to the destination
+				//std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
+				//player->NavigateToPoint(hexagons[j]->position);
+				/*for (int q = 0; q < hexagon[j].neighbours.size(); q++) {
+					if (!hexagons[j]->neighbours.size() > 0) {
+						hexagons[j]->neighbours[q]->Selected();
+					}
+					else {
+						std::cout << "There are no neighbours!" << std::endl;
+					}
+				}*/
+		
 			}
 			//If the payer 
 			else if (hexagons[j] == hexagons[activeid]) {

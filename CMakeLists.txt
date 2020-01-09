@@ -175,10 +175,12 @@ ENDIF()
 IF(MAKE_GAME)
 	add_executable(game
 		game/main.cpp
-		game/myscene.cpp
-		game/myscene.h
-		game/myentity.h
-		game/myentity.cpp
+		game/defaultscene.h
+		game/defaultscene.cpp
+		game/basicentity.h
+		game/basicentity.cpp
+		game/hexagon.h
+		game/hexagon.cpp
 		game/player.h
 		game/player.cpp
 		game/button.h
