@@ -32,7 +32,7 @@ public:
 
 	void SetupHexGrid();
 
-	void AssignNeighbours(std::vector<Hexagon*> hexagons);
+	void AssignNeighbours();
 
 	size_t findnearest(Point2 pos)
 	{
@@ -52,7 +52,6 @@ public:
 		}
 		return n;
 	}
-
 
 private:
 	Hexagon* hexagon;

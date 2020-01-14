@@ -30,11 +30,14 @@ public:
 
 	void Selected();
 
+	void SelectedN();
+
 	void Unselected();
 
 	int x_coefficient;
 	int y_coefficient;
 	std::vector<Hexagon*> neighbours;
+	Point2 pos;
 
 private:
 	Text* textboxX;

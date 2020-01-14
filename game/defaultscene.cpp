@@ -18,7 +18,7 @@ DefaultScene::DefaultScene() : Scene()
 	menu = new Basicentity();
 	mainmenubutton = new Button();
 	quitbutton = new Button();
-	bool menuselected;
+	menuselected = false;
 
 	/*this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
@@ -108,20 +108,46 @@ void DefaultScene::SetupHexGrid() {
 			hexoffsetx = 0;
 		}
 	}
-	AssignNeighbours(hexagons);
+
+	AssignNeighbours();
 }
 
-void DefaultScene:: AssignNeighbours(std::vector<Hexagon*> hexagons)
+void DefaultScene:: AssignNeighbours()
 {
+	
 	for (int i = 0; i < hexagons.size(); i++) {
 		for (int j = 0; j < hexagons.size(); j++)
 		{
-			if (hexagons[j]->x_coefficient == (hexagons[i]->x_coefficient - 1)) {
-				hexagons[j]->neighbours.push_back(hexagons[i]);
-				std::cout << "yeah" << std::endl;
+
+			//float var_a = 9.99;
+			//int   var_b = (int)var_a;
+
+
+			//Fix things
+
+			if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+				hexagons[i]->neighbours.push_back(hexagons[j]);
+			}
+
+			if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+				hexagons[i]->neighbours.push_back(hexagons[j]);
+			}
+
+			if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+				hexagons[i]->neighbours.push_back(hexagons[j]);
+			}
+
+			if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+				hexagons[i]->neighbours.push_back(hexagons[j]);
+			}
+
+			if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y - 1)) {
+				hexagons[i]->neighbours.push_back(hexagons[j]);
 			}
 		}
 	}
+
+	
 }
 
 void DefaultScene::update(float deltaTime)
@@ -148,6 +174,7 @@ void DefaultScene::update(float deltaTime)
 		}*/
 	}
 
+
 	//Get mouse coordinates
 	int mousex = input()->getMouseX();
 	int mousey = input()->getMouseY();
@@ -164,34 +191,38 @@ void DefaultScene::update(float deltaTime)
 			if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
 			{
 				//Select that hexagon
-				hexagons[j]->Selected();
+				//hexagons[j]->Selected();
 				//Only do the calculation for the new path once 
 			}
 			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
 				//Let player calculate a path to the destination
-				//std::cout << player->NavigateToPoint(hexagons[j]->position) << std::endl;
-				//player->NavigateToPoint(hexagons[j]->position);
-				/*for (int q = 0; q < hexagon[j].neighbours.size(); q++) {
-					if (!hexagons[j]->neighbours.size() > 0) {
-						hexagons[j]->neighbours[q]->Selected();
-					}
-					else {
-						std::cout << "There are no neighbours!" << std::endl;
-					}
-					*/
 
-				std::cout << hexagons[j]->neighbours.size() << std::endl;
+				if (hexagons[j]->neighbours.size() > 0) {
+
+					for (int q = 0; q < hexagons[j]->neighbours.size(); q++) {
+						hexagons[j]->neighbours[q]->SelectedN();
+					}
+
+					hexagons[j]->Selected();
+					std::cout << hexagons[j]->neighbours.size() << std::endl;
+				}
+				else {
+					std::cout << "Neighbours array is empty!" << std::endl;
+				}
+					
+
+				//std::cout << hexagons[j]->neighbours.size() << std::endl;
 			}
 		
 			//If the payer 
 			if (hexagons[j] == hexagons[activeid]) {
-				hexagons[j]->Highlighted();
+				//hexagons[j]->Highlighted();
 			}
 
 			//If neither are true, then just keep it as a gray hexagon
 			else
 			{
-				hexagons[j]->Unselected();
+				//hexagons[j]->Unselected();
 			}
 		}
 	}

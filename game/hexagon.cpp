@@ -13,7 +13,8 @@ Hexagon::Hexagon(int x_co, int y_co) : Entity()
 
 	this->addSprite("assets/hexagon.tga");
 	this->scale = Point2(0.5, 0.5);
-	Point2 position = this->position;
+
+	pos = Point2(x_co, y_co);
 
 	textboxX = new Text();
 	textboxX->message(std::to_string(x_co), WHITE);
@@ -42,6 +43,11 @@ void Hexagon::Highlighted() {
 void Hexagon::Selected() {
 	this->addSprite("assets/hexagon_selected.tga");
 	this->sprite()->color = RED;
+}
+
+void Hexagon::SelectedN() {
+	this->addSprite("assets/hexagon_selected.tga");
+	this->sprite()->color = BLUE;
 }
 
 
