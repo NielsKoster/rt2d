@@ -15,6 +15,16 @@ Hexagon::Hexagon(int x_co, int y_co) : Entity()
 	this->scale = Point2(0.5, 0.5);
 
 	pos = Point2(x_co, y_co);
+
+	textboxX = new Text();
+	textboxX->message(std::to_string(x_co), WHITE);
+	textboxX->position.x = this->position.x - 50;
+	this->addChild(textboxX);
+
+	textboxY = new Text();
+	textboxY->message(std::to_string(y_co), WHITE);
+	textboxY->position.x = this->position.x + 50;
+	this->addChild(textboxY);
 }
 
 Hexagon::~Hexagon()

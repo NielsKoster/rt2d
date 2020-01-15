@@ -42,6 +42,8 @@ public:
 	Point2 pos;
 
 private:
+	Text* textboxX;
+	Text* textboxY;
 };
 
 #endif /* MYENTITY_H */
