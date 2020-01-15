@@ -6,6 +6,7 @@
 
 #include <fstream>
 #include <sstream>
+#include <math.h>
 
 #include "defaultscene.h"
 
@@ -118,31 +119,57 @@ void DefaultScene:: AssignNeighbours()
 	for (int i = 0; i < hexagons.size(); i++) {
 		for (int j = 0; j < hexagons.size(); j++)
 		{
+			if ((int)(round(hexagons[i]->pos.x)) % 2 == 0)
+			{
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 
-			//float var_a = 9.99;
-			//int   var_b = (int)var_a;
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 
-			//Fix things
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 
-			if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-				hexagons[i]->neighbours.push_back(hexagons[j]);
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y + 1)) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
+
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y + 1)) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 			}
+			else
+			{
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 
-			if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-				hexagons[i]->neighbours.push_back(hexagons[j]);
-			}
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 
-			if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-				hexagons[i]->neighbours.push_back(hexagons[j]);
-			}
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 
-			if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-				hexagons[i]->neighbours.push_back(hexagons[j]);
-			}
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 
-			if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y - 1)) {
-				hexagons[i]->neighbours.push_back(hexagons[j]);
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y - 1)) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
+
+				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y - 1)) {
+					hexagons[i]->neighbours.push_back(hexagons[j]);
+				}
 			}
 		}
 	}
