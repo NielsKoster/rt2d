@@ -61,6 +61,8 @@ private:
 	Button* mainmenubutton;
 	Button* quitbutton;
 	bool menuselected;
+	bool findpath;
+	Hexagon* destination;
 };
 
 #endif /* DEFAULTSCENE_H */

@@ -16,9 +16,13 @@ Player::~Player()
 {
 }
 
-void Player::NavigateToPoint(Point2 destinationpos)
+Vector2 Player::NavigateToPoint(Vector2 beginpos, Hexagon* despos)
 {
-
+	Vector2 path = beginpos - despos->position;
+	path.normalize();
+	path *= 5;
+	
+	return path;
 }
 
 void Player::update(float deltaTime)

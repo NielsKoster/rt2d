@@ -34,14 +34,14 @@ public:
 
 	void Unselected();
 
+	Vector2 Calculatedistance(Point2);
+
 	int x_coefficient;
 	int y_coefficient;
 	std::vector<Hexagon*> neighbours;
 	Point2 pos;
 
 private:
-	Text* textboxX;
-	Text* textboxY;
 };
 
 #endif /* MYENTITY_H */

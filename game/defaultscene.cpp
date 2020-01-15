@@ -20,11 +20,12 @@ DefaultScene::DefaultScene() : Scene()
 	mainmenubutton = new Button();
 	quitbutton = new Button();
 	menuselected = false;
+	findpath = false;
+	destination = new Hexagon(0,0);
 
-	/*this->addChild(player);
+	this->addChild(player);
 	player->position.x = hexagons[600]->position.x;
 	player->position.y = hexagons[600]->position.y - 5;
-	*/
 
 	//Menu's
 	this->addChild(menu);
@@ -224,33 +225,76 @@ void DefaultScene::update(float deltaTime)
 			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
 				//Let player calculate a path to the destination
 
+				destination = hexagons[j];
+
+				if (findpath == false) {
+					findpath = true;
+				}
+				else {
+					findpath = false;
+				}
+
 				if (hexagons[j]->neighbours.size() > 0) {
+
+					/*std::cout << "Here are the following vectors: " << std::endl;
+
+					Vector2 smallest = Vector2(0, 0);
 
 					for (int q = 0; q < hexagons[j]->neighbours.size(); q++) {
 						hexagons[j]->neighbours[q]->SelectedN();
+						Vector2 distance = hexagons[j]->neighbours[q]->Calculatedistance(player->position);
+						player->availableroutes.push_back(distance);
+						Vector2 smallest = player->availableroutes[0];
 					}
 
+					for (int s = 1; s < player->availableroutes.size(); s++) {
+						if (player->availableroutes[s] < smallest) {
+							smallest = player->availableroutes[s];
+						}
+						std::cout << player->availableroutes[s] << std::endl;
+					}
+					std::cout << "Out of those " << smallest << " is the shortest distance" << std::endl;
+
+					//player->availableroutes.clear();
+					*/
+					
+				}
+
+
+					//Vector2 path = start - dest
+					//Path.normalise();
+
 					hexagons[j]->Selected();
-					std::cout << hexagons[j]->neighbours.size() << std::endl;
-				}
-				else {
-					std::cout << "Neighbours array is empty!" << std::endl;
-				}
+			}
 					
 
-				//std::cout << hexagons[j]->neighbours.size() << std::endl;
-			}
+			//std::cout << hexagons[j]->neighbours.size() << std::endl;
 		
 			//If the payer 
 			if (hexagons[j] == hexagons[activeid]) {
-				//hexagons[j]->Highlighted();
+				hexagons[j]->Highlighted();
 			}
 
 			//If neither are true, then just keep it as a gray hexagon
 			else
 			{
-				//hexagons[j]->Unselected();
+				hexagons[j]->Unselected();
 			}
 		}
+	}
+
+	if (findpath) 
+	{
+		//This needs work
+		/*if ()
+		{
+			Vector2 path = player->NavigateToPoint(player->position, destination);
+			player->position -= path;
+		}
+		else
+		{
+			player->position = destination->position;
+			findpath = false;
+		}*/
 	}
 }

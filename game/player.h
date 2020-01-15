@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <entity.h>
+#include "hexagon.h"
 
 class Player : public Entity
 {
@@ -11,7 +12,9 @@ public:
 	/// @brief Destructor
 	virtual ~Player();
 
-	void NavigateToPoint(Point2 destinationpos);
+	Vector2 NavigateToPoint(Vector2 beginpos, Hexagon* despos);
+
+	std::vector<Vector2> availableroutes;
 
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds
@@ -19,6 +22,7 @@ public:
 	virtual void update(float deltaTime);
 
 private:
+	
 };
 
 #endif /* PLAYER_H */
