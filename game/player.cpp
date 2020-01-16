@@ -18,9 +18,10 @@ Player::~Player()
 
 Vector2 Player::NavigateToPoint(Vector2 beginpos, Hexagon* despos)
 {
+	int walkspeed = 10;
 	Vector2 path = beginpos - despos->position;
 	path.normalize();
-	path *= 5;
+	path *= walkspeed;
 	
 	return path;
 }

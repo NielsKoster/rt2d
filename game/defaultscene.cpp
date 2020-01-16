@@ -285,8 +285,10 @@ void DefaultScene::update(float deltaTime)
 
 	if (findpath) 
 	{
+		float min = 0.005f;
 		//This needs work
-		/*if ()
+		Vector2 distance = player->position - destination->position;
+		if (distance.getLength() > 5)
 		{
 			Vector2 path = player->NavigateToPoint(player->position, destination);
 			player->position -= path;
@@ -295,6 +297,6 @@ void DefaultScene::update(float deltaTime)
 		{
 			player->position = destination->position;
 			findpath = false;
-		}*/
+		}
 	}
 }
