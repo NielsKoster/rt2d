@@ -219,7 +219,7 @@ void DefaultScene::update(float deltaTime)
 			if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
 			{
 				//Select that hexagon
-				//hexagons[j]->Selected();
+				hexagons[j]->Selected();
 				//Only do the calculation for the new path once 
 			}
 			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
@@ -233,38 +233,6 @@ void DefaultScene::update(float deltaTime)
 				else {
 					findpath = false;
 				}
-
-				if (hexagons[j]->neighbours.size() > 0) {
-
-					/*std::cout << "Here are the following vectors: " << std::endl;
-
-					Vector2 smallest = Vector2(0, 0);
-
-					for (int q = 0; q < hexagons[j]->neighbours.size(); q++) {
-						hexagons[j]->neighbours[q]->SelectedN();
-						Vector2 distance = hexagons[j]->neighbours[q]->Calculatedistance(player->position);
-						player->availableroutes.push_back(distance);
-						Vector2 smallest = player->availableroutes[0];
-					}
-
-					for (int s = 1; s < player->availableroutes.size(); s++) {
-						if (player->availableroutes[s] < smallest) {
-							smallest = player->availableroutes[s];
-						}
-						std::cout << player->availableroutes[s] << std::endl;
-					}
-					std::cout << "Out of those " << smallest << " is the shortest distance" << std::endl;
-
-					//player->availableroutes.clear();
-					*/
-					
-				}
-
-
-					//Vector2 path = start - dest
-					//Path.normalise();
-
-					hexagons[j]->Selected();
 			}
 					
 
@@ -285,13 +253,23 @@ void DefaultScene::update(float deltaTime)
 
 	if (findpath) 
 	{
-		float min = 0.005f;
 		//This needs work
 		Vector2 distance = player->position - destination->position;
 		if (distance.getLength() > 5)
 		{
 			Vector2 path = player->NavigateToPoint(player->position, destination);
 			player->position -= path;
+			size_t activeid = findnearest(player->position);
+			for (int h = 0; h < hexagons.size(); h++) {
+				if (activeid == h) {
+					hexagons[activeid]->Selected();
+					activeid = findnearest(player->position);
+					//player->position = hexagons[activeid]->position;
+				}
+				else {
+					hexagons[h]->Unselected();
+				}
+			}
 		}
 		else
 		{
