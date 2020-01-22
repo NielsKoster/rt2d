@@ -30,8 +30,6 @@ public:
 
 	void Selected();
 
-	void SelectedN();
-
 	void Unselected();
 
 	Vector2 Calculatedistance(Point2);
@@ -40,6 +38,7 @@ public:
 	int y_coefficient;
 	std::vector<Hexagon*> neighbours;
 	Point2 pos;
+	bool selected;
 
 private:
 	//Text* textboxX;

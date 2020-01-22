@@ -24,8 +24,8 @@ DefaultScene::DefaultScene() : Scene()
 	destination = new Hexagon(0,0);
 
 	this->addChild(player);
-	player->position = hexagons[500]->position;
-	player->scale = hexagons[500]->scale;
+	player->position = hexagons[0]->position;
+	player->scale = hexagons[0]->scale;
 
 	//Menu's
 	this->addChild(menu);
@@ -51,6 +51,7 @@ DefaultScene::DefaultScene() : Scene()
 
 	randomTileCounter = 0;
 	randomtileMax = 0;
+	srand(time(NULL));
 }
 
 DefaultScene::~DefaultScene()
@@ -191,6 +192,29 @@ void DefaultScene:: AssignNeighbours()
 	
 }
 
+void DefaultScene::AssignColors() 
+{
+	// ###############################################################
+	// Color randomisation
+	// ###############################################################
+
+
+	if (randomtileMax < 20)
+	{
+		int randomcolor = 0;
+
+		randomTileCounter = rand() % (hexagons.size() - 1);
+		randomcolor = rand() % (player->colors.size());
+
+		hexagons[randomTileCounter]->addSprite("assets/hexagon_selected.tga");
+		hexagons[randomTileCounter]->sprite()->color = player->colors[randomcolor];
+		hexagons[randomTileCounter]->selected = true;
+
+		randomtileMax++;
+	}
+}
+
+
 void DefaultScene::update(float deltaTime)
 {
 	// ###############################################################
@@ -254,7 +278,10 @@ void DefaultScene::update(float deltaTime)
 			{
 				if (player->sprite()->color == hexagons[h]->sprite()->color)
 				{
-					std::cout << "Yes" << std::endl;
+
+					hexagons[h]->addSprite("assets/hexagon.tga");
+					hexagons[h]->sprite()->color = GRAY;
+					randomtileMax--;
 				}
 				else
 				{
@@ -277,12 +304,6 @@ void DefaultScene::update(float deltaTime)
 		//Search through all hexagons 
 		for (int j = 0; j < hexagons.size(); j++) {
 			//If a the mouse hovers over a hexagon and the player clicks the left mouse button...
-			if (hexagons[j] == hexagons[activeid] && input()->getMouse(0))
-			{
-				//Select that hexagon
-				hexagons[j]->Selected();
-				//Only do the calculation for the new path once 
-			}
 			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
 				//Let player calculate a path to the destination
 
@@ -291,18 +312,18 @@ void DefaultScene::update(float deltaTime)
 				findpath = true;
 			}
 
-
-			//std::cout << hexagons[j]->neighbours.size() << std::endl;
-
-			//If the payer 
-			if (hexagons[j] == hexagons[activeid]) {
+			//If the player just hovers, highlight it 
+			if (hexagons[j] == hexagons[activeid] && hexagons[j]->selected == false) {
 				hexagons[j]->Highlighted();
 			}
 
 			//If neither are true, then just keep it as a gray hexagon
 			else
 			{
-				hexagons[j]->Unselected();
+				if (!hexagons[j]->selected)
+				{
+					hexagons[j]->Unselected();
+				}
 			}
 		}
 	}
@@ -326,13 +347,13 @@ void DefaultScene::update(float deltaTime)
 			for (int h = 0; h < hexagons.size(); h++) {
 				if (activeid == h) {
 					player->position = hexagons[activeid]->position;
-					//hexagons[activeid]->Selected();
 				}
-				else {
+
+				if (!hexagons[h]->selected)
+				{
 					hexagons[h]->Unselected();
 				}
 			}
-			//player->position -= path;
 		}
 		else
 		{
@@ -343,29 +364,9 @@ void DefaultScene::update(float deltaTime)
 
 	// ###############################################################
 	// Pathfinding
-	// ###############################################################
-
-	// ###############################################################
-	// Color randomisation
-	// ###############################################################
-	//if (randomtileMax < 8)
-	//{
-	//	randomTileCounter = rand() % (hexagons.size() - 1);
-
-	//	for (int e = 0; e < hexagons.size(); e++)
-	//	{
-	//		if (hexagons[e]->sprite()->color != GRAY)
-	//		{
-	//			randomtileMax += 1;
-	//		}
-	//	}
-
-	//	
-
-	//	//hexagons[randomTileCounter]->sprite()->color = player->colors[randomTileCounter = rand() % player->colors.size() - 1];
-	//	std::cout << randomTileCounter << std::endl;
-	//}
-
-
-	
+	// ###############################################################	
+	if (randomtileMax < 20)
+	{
+		AssignColors();
+	}
 }

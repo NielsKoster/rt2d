@@ -25,6 +25,7 @@ Hexagon::Hexagon(int x_co, int y_co) : Entity()
 	textboxY->message(std::to_string(y_co), WHITE);
 	textboxY->position.x = this->position.x + 50;
 	this->addChild(textboxY);*/
+	selected = false;
 }
 
 Hexagon::~Hexagon()
@@ -44,12 +45,6 @@ void Hexagon::Selected() {
 	this->addSprite("assets/hexagon_selected.tga");
 	this->sprite()->color = RED;
 }
-
-void Hexagon::SelectedN() {
-	this->addSprite("assets/hexagon_selected.tga");
-	this->sprite()->color = BLUE;
-}
-
 
 void Hexagon::Unselected() {
 	this->addSprite("assets/hexagon.tga");

@@ -36,6 +36,8 @@ public:
 
 	void AssignNeighbours();
 
+	void AssignColors();
+
 	size_t findnearest(Point2 pos)
 	{
 		size_t n = 0;
