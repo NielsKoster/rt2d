@@ -38,6 +38,8 @@ public:
 
 	void AssignColors();
 
+	void updatescore(int);
+
 	size_t findnearest(Point2 pos)
 	{
 		size_t n = 0;
@@ -70,6 +72,9 @@ private:
 	int colorCounter;
 	int randomTileCounter;
 	int randomtileMax;
+	int points;
+	int maxtargets;
+	std::vector<Text*> text;
 };
 
 #endif /* DEFAULTSCENE_H */

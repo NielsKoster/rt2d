@@ -12,7 +12,7 @@ public:
 	/// @brief Destructor
 	virtual ~Player();
 
-	Vector2 NavigateToPoint(Vector2 beginpos, Hexagon* despos);
+	Vector2 NavigateToPoint(Vector2 beginpos, Hexagon* despos, float deltaTime);
 
 	std::vector<Vector2> availableroutes;
 

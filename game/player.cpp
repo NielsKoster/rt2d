@@ -16,7 +16,7 @@ Player::~Player()
 {
 }
 
-Vector2 Player::NavigateToPoint(Vector2 beginpos, Hexagon* despos)
+Vector2 Player::NavigateToPoint(Vector2 beginpos, Hexagon* despos, float deltaTime)
 {
 	int walkspeed = 4;
 	Vector2 path = beginpos - despos->position;

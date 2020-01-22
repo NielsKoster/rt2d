@@ -52,6 +52,9 @@ DefaultScene::DefaultScene() : Scene()
 	randomTileCounter = 0;
 	randomtileMax = 0;
 	srand(time(NULL));
+
+	points = 0;
+	maxtargets = 20;
 }
 
 DefaultScene::~DefaultScene()
@@ -199,9 +202,10 @@ void DefaultScene::AssignColors()
 	// ###############################################################
 
 
-	if (randomtileMax < 20)
+	if (randomtileMax < maxtargets)
 	{
 		int randomcolor = 0;
+
 
 		randomTileCounter = rand() % (hexagons.size() - 1);
 		randomcolor = rand() % (player->colors.size());
@@ -213,6 +217,18 @@ void DefaultScene::AssignColors()
 		randomtileMax++;
 	}
 }
+
+void DefaultScene::updatescore(int score) {
+	Text* line = new Text();
+	line->scale = Point2(1.0f, 1.0f);
+	line->position = Point2(SWIDTH / 2 - 100, 50);
+	text.push_back(line);
+	std::stringstream fpstxt;
+	fpstxt << "Score: " << score << std::endl;
+	text[0]->message(fpstxt.str());
+	this->addChild(text[0]);
+}
+
 
 
 void DefaultScene::update(float deltaTime)
@@ -282,10 +298,12 @@ void DefaultScene::update(float deltaTime)
 					hexagons[h]->addSprite("assets/hexagon.tga");
 					hexagons[h]->sprite()->color = GRAY;
 					randomtileMax--;
+					points++;
 				}
 				else
 				{
-					std::cout << "Nah" << std::endl;
+					points--;
+					std::cout << points << std::endl;
 				}
 			}
 		}
@@ -341,8 +359,8 @@ void DefaultScene::update(float deltaTime)
 		Vector2 distance = player->position - destination->position;
 		if (distance.getLength() > 5)
 		{
-			Vector2 path = player->NavigateToPoint(player->position, destination);
-			size_t activeid = findnearest(player->position - player->NavigateToPoint(player->position, destination) * 5);
+			Vector2 path = player->NavigateToPoint(player->position, destination, deltaTime);
+			size_t activeid = findnearest(player->position - player->NavigateToPoint(player->position, destination, deltaTime) * 5);
 
 			for (int h = 0; h < hexagons.size(); h++) {
 				if (activeid == h) {
@@ -365,8 +383,10 @@ void DefaultScene::update(float deltaTime)
 	// ###############################################################
 	// Pathfinding
 	// ###############################################################	
-	if (randomtileMax < 20)
+	if (randomtileMax < maxtargets)
 	{
 		AssignColors();
 	}
+
+	updatescore(points);
 }
