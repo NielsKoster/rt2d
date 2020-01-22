@@ -25,6 +25,8 @@ public:
 	/// @brief Destructor
 	virtual ~DefaultScene();
 
+	void addColors();
+
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
@@ -63,6 +65,9 @@ private:
 	bool menuselected;
 	bool findpath;
 	Hexagon* destination;
+	int colorCounter;
+	int randomTileCounter;
+	int randomtileMax;
 };
 
 #endif /* DEFAULTSCENE_H */

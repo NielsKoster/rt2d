@@ -24,8 +24,8 @@ DefaultScene::DefaultScene() : Scene()
 	destination = new Hexagon(0,0);
 
 	this->addChild(player);
-	player->position.x = hexagons[600]->position.x;
-	player->position.y = hexagons[600]->position.y - 5;
+	player->position = hexagons[500]->position;
+	player->scale = hexagons[500]->scale;
 
 	//Menu's
 	this->addChild(menu);
@@ -33,8 +33,6 @@ DefaultScene::DefaultScene() : Scene()
 	this->addChild(quitbutton);
 
 	menu->addSprite("assets/color.tga");
-	mainmenubutton->addSprite("assets/mainmenubutton.tga");
-	quitbutton->addSprite("assets/quitbutton.tga");
 
 	menu->position.x = 9999;
 	mainmenubutton->position.x = 9999;
@@ -47,6 +45,12 @@ DefaultScene::DefaultScene() : Scene()
 	menu->scale = Point2(1, 1.5);
 	mainmenubutton->scale = Point2(0.75, 0.75);
 	quitbutton->scale = Point2(0.75, 0.75);
+
+	colorCounter = 0;
+	addColors();
+
+	randomTileCounter = 0;
+	randomtileMax = 0;
 }
 
 DefaultScene::~DefaultScene()
@@ -60,6 +64,15 @@ DefaultScene::~DefaultScene()
 	delete menu;
 	delete mainmenubutton;
 	delete quitbutton;
+}
+
+void DefaultScene::addColors()
+{
+		player->colors.push_back(RED);
+		player->colors.push_back(ORANGE);
+		player->colors.push_back(YELLOW);
+		player->colors.push_back(GREEN);
+		player->colors.push_back(BLUE);
 }
 
 void DefaultScene::SetupHexGrid() {
@@ -111,7 +124,7 @@ void DefaultScene::SetupHexGrid() {
 		}
 	}
 
-	AssignNeighbours();
+	//AssignNeighbours();
 }
 
 void DefaultScene:: AssignNeighbours()
@@ -181,10 +194,11 @@ void DefaultScene:: AssignNeighbours()
 void DefaultScene::update(float deltaTime)
 {
 	// ###############################################################
-	// Escape key puts menu on screen
+	// Controls
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
 		this->stop();
+
 		/*if (menu->position.x != SWIDTH / 2) {
 			menu->position.x = SWIDTH / 2;
 			mainmenubutton->position.x = SWIDTH / 2;
@@ -202,6 +216,53 @@ void DefaultScene::update(float deltaTime)
 		}*/
 	}
 
+	if (input()->getKeyDown(KeyCode::E))
+	{
+		if (colorCounter < player->colors.size() - 1)
+		{
+			colorCounter += 1;
+			player->sprite()->color = player->colors[colorCounter];
+
+		}
+		else
+		{
+			colorCounter = 0;
+			player->sprite()->color = player->colors[colorCounter];
+		}
+	}
+
+	if (input()->getKeyDown(KeyCode::Q))
+	{
+		if (colorCounter > 0)
+		{
+			colorCounter -= 1;
+			player->sprite()->color = player->colors[colorCounter];
+
+		}
+		else
+		{
+			colorCounter = player->colors.size() - 1;
+			player->sprite()->color = player->colors[colorCounter];
+		}
+	}
+
+	if (input()->getKeyDown(KeyCode::Space))
+	{
+		for (int h = 0; h < hexagons.size(); h++)
+		{
+			if (player->position == hexagons[h]->position)
+			{
+				if (player->sprite()->color == hexagons[h]->sprite()->color)
+				{
+					std::cout << "Yes" << std::endl;
+				}
+				else
+				{
+					std::cout << "Nah" << std::endl;
+				}
+			}
+		}
+	}
 
 	//Get mouse coordinates
 	int mousex = input()->getMouseX();
@@ -227,17 +288,12 @@ void DefaultScene::update(float deltaTime)
 
 				destination = hexagons[j];
 
-				if (findpath == false) {
-					findpath = true;
-				}
-				else {
-					findpath = false;
-				}
+				findpath = true;
 			}
-					
+
 
 			//std::cout << hexagons[j]->neighbours.size() << std::endl;
-		
+
 			//If the payer 
 			if (hexagons[j] == hexagons[activeid]) {
 				hexagons[j]->Highlighted();
@@ -250,6 +306,13 @@ void DefaultScene::update(float deltaTime)
 			}
 		}
 	}
+	// ###############################################################
+	// Controls
+	// ###############################################################
+
+	// ###############################################################
+	// Pathfinding
+	// ###############################################################
 
 	if (findpath) 
 	{
@@ -258,18 +321,18 @@ void DefaultScene::update(float deltaTime)
 		if (distance.getLength() > 5)
 		{
 			Vector2 path = player->NavigateToPoint(player->position, destination);
-			player->position -= path;
-			size_t activeid = findnearest(player->position);
+			size_t activeid = findnearest(player->position - player->NavigateToPoint(player->position, destination) * 5);
+
 			for (int h = 0; h < hexagons.size(); h++) {
 				if (activeid == h) {
-					hexagons[activeid]->Selected();
-					activeid = findnearest(player->position);
-					//player->position = hexagons[activeid]->position;
+					player->position = hexagons[activeid]->position;
+					//hexagons[activeid]->Selected();
 				}
 				else {
 					hexagons[h]->Unselected();
 				}
 			}
+			//player->position -= path;
 		}
 		else
 		{
@@ -277,4 +340,32 @@ void DefaultScene::update(float deltaTime)
 			findpath = false;
 		}
 	}
+
+	// ###############################################################
+	// Pathfinding
+	// ###############################################################
+
+	// ###############################################################
+	// Color randomisation
+	// ###############################################################
+	//if (randomtileMax < 8)
+	//{
+	//	randomTileCounter = rand() % (hexagons.size() - 1);
+
+	//	for (int e = 0; e < hexagons.size(); e++)
+	//	{
+	//		if (hexagons[e]->sprite()->color != GRAY)
+	//		{
+	//			randomtileMax += 1;
+	//		}
+	//	}
+
+	//	
+
+	//	//hexagons[randomTileCounter]->sprite()->color = player->colors[randomTileCounter = rand() % player->colors.size() - 1];
+	//	std::cout << randomTileCounter << std::endl;
+	//}
+
+
+	
 }

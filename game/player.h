@@ -21,6 +21,8 @@ public:
 	/// @return void
 	virtual void update(float deltaTime);
 
+	std::vector<RGBAColor> colors;
+
 private:
 	
 };

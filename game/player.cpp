@@ -8,8 +8,8 @@
 
 Player::Player() : Entity()
 {
-	this->addSprite("assets/player.tga");
-	this->scale = Point2(0.3, 0.15);
+	this->addSprite("assets/hexagon_selected.tga");
+	this->sprite()->color = RED;
 }
 
 Player::~Player()
@@ -18,7 +18,7 @@ Player::~Player()
 
 Vector2 Player::NavigateToPoint(Vector2 beginpos, Hexagon* despos)
 {
-	int walkspeed = 10;
+	int walkspeed = 4;
 	Vector2 path = beginpos - despos->position;
 	path.normalize();
 	path *= walkspeed;
