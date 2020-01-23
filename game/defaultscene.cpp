@@ -170,11 +170,13 @@ void DefaultScene::AssignColors()
 		randomTileCounter = rand() % (hexagons.size() - 1);
 		randomcolor = rand() % (player->colors.size());
 
-		hexagons[randomTileCounter]->addSprite("assets/hexagon_selected.tga");
-		hexagons[randomTileCounter]->sprite()->color = player->colors[randomcolor];
-		hexagons[randomTileCounter]->selected = true;
-
-		randomtileMax++;
+		if (hexagons[randomTileCounter]->sprite()->color == GRAY) 
+		{
+			hexagons[randomTileCounter]->addSprite("assets/hexagon_selected.tga");
+			hexagons[randomTileCounter]->sprite()->color = player->colors[randomcolor];
+			hexagons[randomTileCounter]->selected = true;
+			randomtileMax++;
+		}
 	}
 }
 
@@ -210,16 +212,8 @@ void DefaultScene::enableMenu()
 	}
 }
 
-void DefaultScene::update(float deltaTime)
+void DefaultScene::checkInputs(float deltaTime)
 {
-	// ###############################################################
-	// Controls
-	// ###############################################################
-	if (input()->getKeyUp(KeyCode::Escape)) {
-		//this->stop();
-		enableMenu();
-	}
-
 	if (input()->getKeyDown(KeyCode::E))
 	{
 		if (colorCounter < player->colors.size() - 1)
@@ -263,11 +257,14 @@ void DefaultScene::update(float deltaTime)
 					hexagons[h]->sprite()->color = GRAY;
 					randomtileMax--;
 					points++;
+					player->showpoints(1);
+					player->iconmovement(deltaTime);
 				}
 				else
 				{
 					points--;
-					std::cout << points << std::endl;
+					player->showpoints(-1);
+					player->iconmovement(deltaTime);
 				}
 			}
 		}
@@ -279,47 +276,43 @@ void DefaultScene::update(float deltaTime)
 	//Combine them into a Point2
 	Point2 mousepos = Point2(mousex, mousey);
 
-	if (!menuselected) {
-		//Find the nearest hexagon to the mouse
-		size_t activeid = findnearest(mousepos);
+	//Find the nearest hexagon to the mouse
+	size_t activeid = findnearest(mousepos);
 
-		//Search through all hexagons 
-		for (int j = 0; j < hexagons.size(); j++) {
-			//If a the mouse hovers over a hexagon and the player clicks the left mouse button...
-			if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
-				//Let player calculate a path to the destination
+	//Search through all hexagons 
+	for (int j = 0; j < hexagons.size(); j++) {
+		//If a the mouse hovers over a hexagon and the player clicks the left mouse button...
+		if (hexagons[j] == hexagons[activeid] && input()->getMouseDown(0)) {
+			//Let player calculate a path to the destination
 
-				destination = hexagons[j];
+			destination = hexagons[j];
 
-				findpath = true;
-			}
+			findpath = true;
+		}
 
-			//If the player just hovers, highlight it 
-			if (hexagons[j] == hexagons[activeid] && hexagons[j]->selected == false) {
-				hexagons[j]->Highlighted();
-			}
+		//If the player just hovers, highlight it 
+		if (hexagons[j] == hexagons[activeid] && hexagons[j]->selected == false) {
+			hexagons[j]->Highlighted();
+		}
 
-			//If neither are true, then just keep it as a gray hexagon
-			else
+		//If neither are true, then just keep it as a gray hexagon
+		else
+		{
+			if (!hexagons[j]->selected)
 			{
-				if (!hexagons[j]->selected)
-				{
-					hexagons[j]->Unselected();
-				}
+				hexagons[j]->Unselected();
 			}
 		}
 	}
 	// ###############################################################
 	// Controls
 	// ###############################################################
+}
 
-	// ###############################################################
-	// Pathfinding
-	// ###############################################################
-
-	if (findpath) 
+void DefaultScene::pathfinding(float deltaTime)
+{
+	if (findpath)
 	{
-		//This needs work
 		Vector2 distance = player->position - destination->position;
 		if (distance.getLength() > 5)
 		{
@@ -343,14 +336,28 @@ void DefaultScene::update(float deltaTime)
 			findpath = false;
 		}
 	}
+}
 
-	// ###############################################################
-	// Pathfinding
-	// ###############################################################	
-	if (randomtileMax < maxtargets)
-	{
-		AssignColors();
+void DefaultScene::update(float deltaTime)
+{
+
+		// ###############################################################
+		// Controls
+		// ###############################################################
+		if (input()->getKeyUp(KeyCode::Escape)) {
+			//this->stop();
+			enableMenu();
+		}
+		if (!menuselected)
+		{
+			checkInputs(deltaTime);
+			pathfinding(deltaTime);
+
+			if (randomtileMax < maxtargets)
+			{
+				AssignColors();
+			}
+
+			updatescore(points);
 	}
-
-	updatescore(points);
 }

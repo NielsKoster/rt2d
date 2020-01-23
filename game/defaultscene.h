@@ -42,6 +42,10 @@ public:
 
 	void enableMenu();
 
+	void pathfinding(float deltaTime);
+
+	void checkInputs(float deltaTime);
+
 	size_t findnearest(Point2 pos)
 	{
 		size_t n = 0;

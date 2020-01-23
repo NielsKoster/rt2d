@@ -13,9 +13,6 @@ Button::Button() : Entity()
 	textbox = new Text();
 	textbox->scale = Point2(0.8, 0.8);
 	this->addChild(textbox);
-
-
-	//textbox->message = ("");
 }
 
 Button::~Button()

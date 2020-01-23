@@ -3,6 +3,7 @@
 
 #include <entity.h>
 #include "hexagon.h"
+#include "basicentity.h"
 
 class Player : public Entity
 {
@@ -12,9 +13,13 @@ public:
 	/// @brief Destructor
 	virtual ~Player();
 
+	Basicentity* playericon;
+
 	Vector2 NavigateToPoint(Vector2 beginpos, Hexagon* despos, float deltaTime);
 
-	std::vector<Vector2> availableroutes;
+	void iconmovement(float deltaTime);
+
+	void showpoints(int points);
 
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds
@@ -24,7 +29,7 @@ public:
 	std::vector<RGBAColor> colors;
 
 private:
-	
+	bool faded;
 };
 
 #endif /* PLAYER_H */
