@@ -27,6 +27,8 @@ public:
 
 	void addColors();
 
+	void UISetup();
+
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
@@ -34,11 +36,11 @@ public:
 
 	void SetupHexGrid();
 
-	void AssignNeighbours();
-
 	void AssignColors();
 
 	void updatescore(int);
+
+	void enableMenu();
 
 	size_t findnearest(Point2 pos)
 	{
@@ -75,6 +77,8 @@ private:
 	int points;
 	int maxtargets;
 	std::vector<Text*> text;
+	Text* menutext;
+	Basicentity* menushade;
 };
 
 #endif /* DEFAULTSCENE_H */

@@ -2,6 +2,7 @@
 #define BUTTON_H
 
 #include <entity.h>
+#include <text.h>
 
 class Button : public Entity
 {
@@ -10,6 +11,8 @@ public:
 	Button();
 	/// @brief Destructor
 	virtual ~Button();
+
+	Text* textbox;
 
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds

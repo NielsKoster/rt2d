@@ -22,29 +22,13 @@ DefaultScene::DefaultScene() : Scene()
 	menuselected = false;
 	findpath = false;
 	destination = new Hexagon(0,0);
+	menutext = new Text();
+	menushade = new Basicentity();
 
+	
 	this->addChild(player);
 	player->position = hexagons[0]->position;
 	player->scale = hexagons[0]->scale;
-
-	//Menu's
-	this->addChild(menu);
-	this->addChild(mainmenubutton);
-	this->addChild(quitbutton);
-
-	menu->addSprite("assets/color.tga");
-
-	menu->position.x = 9999;
-	mainmenubutton->position.x = 9999;
-	quitbutton->position.x = 9999;
-	
-	menu->position.y = SHEIGHT / 2;
-	mainmenubutton->position.y = SHEIGHT / 2;
-	quitbutton->position.y = SHEIGHT / 2;
-	
-	menu->scale = Point2(1, 1.5);
-	mainmenubutton->scale = Point2(0.75, 0.75);
-	quitbutton->scale = Point2(0.75, 0.75);
 
 	colorCounter = 0;
 	addColors();
@@ -54,7 +38,9 @@ DefaultScene::DefaultScene() : Scene()
 	srand(time(NULL));
 
 	points = 0;
-	maxtargets = 20;
+	maxtargets = 10;
+
+	UISetup();
 }
 
 DefaultScene::~DefaultScene()
@@ -68,6 +54,46 @@ DefaultScene::~DefaultScene()
 	delete menu;
 	delete mainmenubutton;
 	delete quitbutton;
+}
+
+void DefaultScene::UISetup()
+{
+	this->addChild(menushade);
+	this->addChild(menu);
+	this->addChild(mainmenubutton);
+	this->addChild(quitbutton);
+	mainmenubutton->addChild(menutext);
+
+
+	menu->addSprite("assets/color.tga");
+	menushade->addSprite("assets/color.tga");
+	menushade->sprite()->color = BLACK;
+	menushade->sprite()->color.a = 150;
+
+	menu->position.y = SHEIGHT / 2;
+	mainmenubutton->position.y = SHEIGHT / 2;
+	quitbutton->position.y = SHEIGHT / 2;
+	menushade->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+
+	menu->scale = Point2(1, 1.5);
+	mainmenubutton->scale = Point2(0.75, 0.75);
+	quitbutton->scale = Point2(0.75, 0.75);
+	menushade->scale = Point2(5, 3);
+
+	mainmenubutton->textbox->message("MAIN MENU", BLACK);
+	quitbutton->textbox->message("QUIT", BLACK);
+	menutext->message("MENU", BLACK);
+
+	mainmenubutton->textbox->position.x = mainmenubutton->position.x - 100;
+	quitbutton->textbox->position.x = quitbutton->position.x - 40;
+	menutext->position = Point2(mainmenubutton->position.x - 65, mainmenubutton->position.y - 525);
+
+	menutext->scale = Point2(1.5, 1.5);
+
+	menu->position.x = 9999;
+	mainmenubutton->position.x = 9999;
+	quitbutton->position.x = 9999;
+	menushade->position.x = 9999;
 }
 
 void DefaultScene::addColors()
@@ -127,72 +153,6 @@ void DefaultScene::SetupHexGrid() {
 			hexoffsetx = 0;
 		}
 	}
-
-	//AssignNeighbours();
-}
-
-void DefaultScene:: AssignNeighbours()
-{
-	
-	for (int i = 0; i < hexagons.size(); i++) {
-		for (int j = 0; j < hexagons.size(); j++)
-		{
-			if ((int)(round(hexagons[i]->pos.x)) % 2 == 0)
-			{
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y + 1)) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y + 1)) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-			}
-			else
-			{
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 2) && hexagons[i]->pos.y == hexagons[j]->pos.y) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x - 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y - 1)) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-
-				if (hexagons[i]->pos.x == (hexagons[j]->pos.x + 1) && hexagons[i]->pos.y == (hexagons[j]->pos.y - 1)) {
-					hexagons[i]->neighbours.push_back(hexagons[j]);
-				}
-			}
-		}
-	}
-
-	
 }
 
 void DefaultScene::AssignColors() 
@@ -221,7 +181,7 @@ void DefaultScene::AssignColors()
 void DefaultScene::updatescore(int score) {
 	Text* line = new Text();
 	line->scale = Point2(1.0f, 1.0f);
-	line->position = Point2(SWIDTH / 2 - 100, 50);
+	line->position = Point2(SWIDTH / 2 - 125, 50);
 	text.push_back(line);
 	std::stringstream fpstxt;
 	fpstxt << "Score: " << score << std::endl;
@@ -229,7 +189,26 @@ void DefaultScene::updatescore(int score) {
 	this->addChild(text[0]);
 }
 
+void DefaultScene::enableMenu()
+{
+	if (menu->position.x != SWIDTH / 2) {
+		menu->position.x = SWIDTH / 2;
+		mainmenubutton->position.x = SWIDTH / 2;
+		quitbutton->position.x = SWIDTH / 2;
 
+		mainmenubutton->position.y = (SHEIGHT / 2);
+		quitbutton->position.y = (SHEIGHT / 2) + 125;
+		menushade->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+		menuselected = true;
+	}
+	else {
+		menu->position.x = 9999;
+		mainmenubutton->position.x = 9999;
+		quitbutton->position.x = 9999;
+		menushade->position.x = 9999;
+		menuselected = false;
+	}
+}
 
 void DefaultScene::update(float deltaTime)
 {
@@ -237,23 +216,8 @@ void DefaultScene::update(float deltaTime)
 	// Controls
 	// ###############################################################
 	if (input()->getKeyUp(KeyCode::Escape)) {
-		this->stop();
-
-		/*if (menu->position.x != SWIDTH / 2) {
-			menu->position.x = SWIDTH / 2;
-			mainmenubutton->position.x = SWIDTH / 2;
-			quitbutton->position.x = SWIDTH / 2;
-
-			mainmenubutton->position.y = (SHEIGHT / 2);
-			quitbutton->position.y = (SHEIGHT / 2) + 125;
-			menuselected = true;
-		} 
-		else {
-			menu->position.x = 9999;
-			mainmenubutton->position.x = 9999;
-			quitbutton->position.x = 9999;
-			menuselected = false;
-		}*/
+		//this->stop();
+		enableMenu();
 	}
 
 	if (input()->getKeyDown(KeyCode::E))
