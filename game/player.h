@@ -13,6 +13,8 @@ public:
 	/// @brief Destructor
 	virtual ~Player();
 
+	bool faded;
+
 	Basicentity* playericon;
 
 	Vector2 NavigateToPoint(Vector2 beginpos, Hexagon* despos, float deltaTime);
@@ -29,7 +31,7 @@ public:
 	std::vector<RGBAColor> colors;
 
 private:
-	bool faded;
+
 };
 
 #endif /* PLAYER_H */

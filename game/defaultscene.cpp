@@ -25,6 +25,12 @@ DefaultScene::DefaultScene() : Scene()
 	menutext = new Text();
 	menushade = new Basicentity();
 
+	//Get mouse coordinates
+	int mousex = input()->getMouseX();
+	int mousey = input()->getMouseY();
+	//Combine them into a Point2
+	Point2 mousepos = Point2(mousex, mousey);
+
 	
 	this->addChild(player);
 	player->position = hexagons[0]->position;
@@ -50,10 +56,12 @@ DefaultScene::~DefaultScene()
 		delete hexagons[i];
 	}
 
+	delete player->playericon;
 	delete player;
 	delete menu;
 	delete mainmenubutton;
 	delete quitbutton;
+	delete menutext;
 }
 
 void DefaultScene::UISetup()
@@ -257,14 +265,14 @@ void DefaultScene::checkInputs(float deltaTime)
 					hexagons[h]->sprite()->color = GRAY;
 					randomtileMax--;
 					points++;
-					player->showpoints(1);
-					player->iconmovement(deltaTime);
+					//player->showpoints(1);
+					//player->iconmovement(deltaTime);
 				}
 				else
 				{
 					points--;
-					player->showpoints(-1);
-					player->iconmovement(deltaTime);
+					//player->showpoints(-1);
+					//player->iconmovement(deltaTime);
 				}
 			}
 		}
@@ -309,6 +317,31 @@ void DefaultScene::checkInputs(float deltaTime)
 	// ###############################################################
 }
 
+void DefaultScene::checkMenuButtons()
+{
+	int mousex = input()->getMouseX();
+	int mousey = input()->getMouseY();
+	mousepos = Point2(mousex, mousey);
+
+	if (mousepos.x > mainmenubutton->position.x - 100 && mousepos.x < mainmenubutton->position.x + 100 && mousepos.y > mainmenubutton->position.y - 50 && mousepos.y < mainmenubutton->position.y + 50)
+	{
+		if (input()->getMouseDown(0))
+		{
+			std::cout << "gotomainmenu" << std::endl;
+		}
+	}
+	else
+	{
+		if (mousepos.x > quitbutton->position.x - 100 && mousepos.x < quitbutton->position.x + 100 && mousepos.y > quitbutton->position.y - 50 && mousepos.y < quitbutton->position.y + 50)
+		{
+			if (input()->getMouseDown(0))
+			{
+				this->stop();
+			}
+		}
+	}
+}
+
 void DefaultScene::pathfinding(float deltaTime)
 {
 	if (findpath)
@@ -341,23 +374,31 @@ void DefaultScene::pathfinding(float deltaTime)
 void DefaultScene::update(float deltaTime)
 {
 
-		// ###############################################################
-		// Controls
-		// ###############################################################
-		if (input()->getKeyUp(KeyCode::Escape)) {
-			//this->stop();
-			enableMenu();
-		}
-		if (!menuselected)
+	// ###############################################################
+	// Controls
+	// ###############################################################
+	if (input()->getKeyUp(KeyCode::Escape))
+	{
+		//this->stop();
+		enableMenu();
+	}
+
+	if (!menuselected)
+	{
+		checkInputs(deltaTime);
+		pathfinding(deltaTime);
+
+		if (randomtileMax < maxtargets)
 		{
-			checkInputs(deltaTime);
-			pathfinding(deltaTime);
+			AssignColors();
+		}
+	}
 
-			if (randomtileMax < maxtargets)
-			{
-				AssignColors();
-			}
+	updatescore(points);
 
-			updatescore(points);
+	if (menuselected)
+	{
+		checkMenuButtons();
 	}
 }
+

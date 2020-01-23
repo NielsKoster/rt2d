@@ -18,6 +18,8 @@ Player::Player() : Entity()
 	playericon->position = Point2(this->position.x, this->position.y - 100);
 	playericon->scale = Point2(10, 10);
 
+	playericon->sprite()->color.a = 0;
+
 	bool faded = false;
 }
 
@@ -39,11 +41,11 @@ void Player::iconmovement(float deltaTime)
 {
 	if (playericon->position.y > this->position.y - 250 && faded == false)
 	{
-		playericon->position.y-- * deltaTime;
+		playericon->position.y -= deltaTime;
 
 		if (playericon->sprite()->color.a > 1)
 		{
-			playericon->sprite()->color.a-- * deltaTime;
+			playericon->sprite()->color.a -= deltaTime;
 		} 
 		else
 		{

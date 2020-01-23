@@ -46,6 +46,8 @@ public:
 
 	void checkInputs(float deltaTime);
 
+	void checkMenuButtons();
+
 	size_t findnearest(Point2 pos)
 	{
 		size_t n = 0;
@@ -83,6 +85,7 @@ private:
 	std::vector<Text*> text;
 	Text* menutext;
 	Basicentity* menushade;
+	Point2 mousepos;
 };
 
 #endif /* DEFAULTSCENE_H */
