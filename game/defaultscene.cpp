@@ -10,7 +10,6 @@
 
 #include "defaultscene.h"
 
-
 DefaultScene::DefaultScene() : Scene()
 {
 	hexagons = std::vector<Hexagon*>();
@@ -20,10 +19,20 @@ DefaultScene::DefaultScene() : Scene()
 	mainmenubutton = new Button();
 	quitbutton = new Button();
 	menuselected = false;
+	mainmenuselected = true;
+	endscreenselected = false;
 	findpath = false;
 	destination = new Hexagon(0,0);
 	menutext = new Text();
 	menushade = new Basicentity();
+	pauseicon = new Basicentity();
+	scoreLine = new Text();
+	timeLine = new Text();
+	highscoreLine = new Text();
+	mainmenubg = new Basicentity();
+	playbutton = new Button();
+	retrybutton = new Button();
+	logo = new Basicentity();
 
 	//Get mouse coordinates
 	int mousex = input()->getMouseX();
@@ -44,9 +53,13 @@ DefaultScene::DefaultScene() : Scene()
 	srand(time(NULL));
 
 	points = 0;
+	highscore = 0;
 	maxtargets = 10;
 
 	UISetup();
+
+	timer = new Timer();
+	timer->start();
 }
 
 DefaultScene::~DefaultScene()
@@ -62,6 +75,11 @@ DefaultScene::~DefaultScene()
 	delete mainmenubutton;
 	delete quitbutton;
 	delete menutext;
+	delete mainmenubg;
+	delete menushade;
+	delete highscoreLine;
+	delete scoreLine;
+	delete retrybutton;
 }
 
 void DefaultScene::UISetup()
@@ -69,39 +87,87 @@ void DefaultScene::UISetup()
 	this->addChild(menushade);
 	this->addChild(menu);
 	this->addChild(mainmenubutton);
-	this->addChild(quitbutton);
 	mainmenubutton->addChild(menutext);
-
+	this->addChild(pauseicon);
+	this->addChild(timeLine);
+	this->addChild(mainmenubg);
+	this->addChild(quitbutton);
+	this->addChild(playbutton);
+	this->addChild(highscoreLine);
+	this->addChild(retrybutton);
+	this->addChild(logo);
 
 	menu->addSprite("assets/color.tga");
 	menushade->addSprite("assets/color.tga");
+	pauseicon->addSprite("assets/pause_icon.tga");
+	mainmenubg->addSprite("assets/color.tga");
+	logo->addSprite("assets/colorclicker_logo.tga");
+
 	menushade->sprite()->color = BLACK;
 	menushade->sprite()->color.a = 150;
+	mainmenubg->sprite()->color = WHITE;
+	logo->sprite()->color = BLACK;
 
 	menu->position.y = SHEIGHT / 2;
 	mainmenubutton->position.y = SHEIGHT / 2;
-	quitbutton->position.y = SHEIGHT / 2;
+	quitbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 275);
 	menushade->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+	pauseicon->position.y = SHEIGHT / 2;
+	mainmenubg->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+	playbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 150);
+	highscoreLine->position = Point2(9999, SHEIGHT / 2);
+	retrybutton->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+	logo->position = Point2(SWIDTH / 2, SHEIGHT / 2 - 150);
+
+	timeLine->position = Point2(50 , SHEIGHT - 50);
 
 	menu->scale = Point2(1, 1.5);
 	mainmenubutton->scale = Point2(0.75, 0.75);
 	quitbutton->scale = Point2(0.75, 0.75);
 	menushade->scale = Point2(5, 3);
+	pauseicon->scale = Point2(1.5 ,1.5);
+	mainmenubg->scale = Point2(5, 3);
+	playbutton->scale = Point2(0.75, 0.75);
+	retrybutton->scale = Point2(0.75, 0.75);
+	logo->scale = Point2(0.3, 0.3);
 
 	mainmenubutton->textbox->message("MAIN MENU", BLACK);
 	quitbutton->textbox->message("QUIT", BLACK);
 	menutext->message("MENU", BLACK);
+	playbutton->textbox->message("PLAY", BLACK);
+	retrybutton->textbox->message("RETRY", BLACK);
 
 	mainmenubutton->textbox->position.x = mainmenubutton->position.x - 100;
-	quitbutton->textbox->position.x = quitbutton->position.x - 40;
-	menutext->position = Point2(mainmenubutton->position.x - 65, mainmenubutton->position.y - 525);
+	quitbutton->textbox->position.x = quitbutton->position.x - 675;
+	menutext->position = Point2(mainmenubutton->position.x - 65, mainmenubutton->position.y - 525); 
+	playbutton->textbox->position.x = playbutton->position.x -675;
+	retrybutton->textbox->position = Point2(retrybutton->position.x - 690, retrybutton->position.y - 360);
 
 	menutext->scale = Point2(1.5, 1.5);
 
 	menu->position.x = 9999;
 	mainmenubutton->position.x = 9999;
-	quitbutton->position.x = 9999;
 	menushade->position.x = 9999;
+	pauseicon->position.x = 9999;
+	scoreLine->position.x = 9999;
+	retrybutton->position.x = 9999;
+
+	text.push_back(scoreLine);
+	std::stringstream scoretxt;
+	scoretxt << points << std::endl;
+	this->addChild(text[0]);
+	text[0]->scale = Point2(1.2, 1.2);
+
+	text.push_back(timeLine);
+	std::stringstream timetxt;
+	timetxt << time << std::endl;
+	this->addChild(text[1]);
+
+	text.push_back(highscoreLine);
+	std::stringstream highscoretext;
+	highscoretext << highscore << std::endl;
+	this->addChild(text[2]);
+	text[2]->scale = Point2(0.50, 0.50);
 }
 
 void DefaultScene::addColors()
@@ -188,34 +254,56 @@ void DefaultScene::AssignColors()
 	}
 }
 
-void DefaultScene::updatescore(int score) {
-	Text* line = new Text();
-	line->scale = Point2(1.0f, 1.0f);
-	line->position = Point2(SWIDTH / 2 - 125, 50);
-	text.push_back(line);
-	std::stringstream fpstxt;
-	fpstxt << "Score: " << score << std::endl;
-	text[0]->message(fpstxt.str());
-	this->addChild(text[0]);
+void DefaultScene::updatescore(int score) 
+{
+	text[0]->message("Time's up! Your score is " + std::to_string(score));
+}
+
+void DefaultScene::updateTime(double time)
+{	
+	std::stringstream timestream;
+	timestream << std::fixed << std::setprecision(2) << time * 2;
+	text[1]->message(timestream.str());
+
+	if (abs(timer->seconds() + -15) < 0.1)
+	{
+		endScreen();
+	}
+}
+
+void DefaultScene::checkHighscore()
+{
+	if (points > highscore)
+	{
+		highscore = points;
+	} 
+
+	text[2]->clearMessage();
+	text[2]->message("This session's highscore is " + std::to_string(highscore));
 }
 
 void DefaultScene::enableMenu()
 {
-	if (menu->position.x != SWIDTH / 2) {
-		menu->position.x = SWIDTH / 2;
-		mainmenubutton->position.x = SWIDTH / 2;
-		quitbutton->position.x = SWIDTH / 2;
+	if (!menuselected) {
+		menu->position.x = SWIDTH / 2 + 300;
+		mainmenubutton->position.x = SWIDTH / 2 + 300; 
+		quitbutton->position.x = SWIDTH / 2 + 300;
+		pauseicon->position.x = SWIDTH / 2 - 300;
 
 		mainmenubutton->position.y = (SHEIGHT / 2);
 		quitbutton->position.y = (SHEIGHT / 2) + 125;
 		menushade->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+		scoreLine->clearMessage();
+		timeLine->clearMessage();
 		menuselected = true;
 	}
-	else {
+	else 
+	{
 		menu->position.x = 9999;
 		mainmenubutton->position.x = 9999;
 		quitbutton->position.x = 9999;
 		menushade->position.x = 9999;
+		pauseicon->position.x = 9999;
 		menuselected = false;
 	}
 }
@@ -265,14 +353,10 @@ void DefaultScene::checkInputs(float deltaTime)
 					hexagons[h]->sprite()->color = GRAY;
 					randomtileMax--;
 					points++;
-					//player->showpoints(1);
-					//player->iconmovement(deltaTime);
 				}
 				else
 				{
 					points--;
-					//player->showpoints(-1);
-					//player->iconmovement(deltaTime);
 				}
 			}
 		}
@@ -327,9 +411,34 @@ void DefaultScene::checkMenuButtons()
 	{
 		if (input()->getMouseDown(0))
 		{
-			std::cout << "gotomainmenu" << std::endl;
+			enableMenu();
+			toggleMainMenu();
+			endscreenselected = false;
+
 		}
 	}
+
+	if (mousepos.x > retrybutton->position.x - 100 && mousepos.x < retrybutton->position.x + 100 && mousepos.y > retrybutton->position.y - 50 && mousepos.y < retrybutton->position.y + 50)
+	{
+		if (input()->getMouseDown(0))
+		{
+			retry();
+		}
+	}
+
+	if (mousepos.x > playbutton->position.x - 100 && mousepos.x < playbutton->position.x + 100 && mousepos.y > playbutton->position.y - 50 && mousepos.y < playbutton->position.y + 50)
+	{
+		if (input()->getMouseDown(0))
+		{
+			toggleMainMenu();
+			if (menuselected)
+			{
+				enableMenu();
+			}
+			scoreLine->position.x = 9999;
+		}
+	}
+
 	else
 	{
 		if (mousepos.x > quitbutton->position.x - 100 && mousepos.x < quitbutton->position.x + 100 && mousepos.y > quitbutton->position.y - 50 && mousepos.y < quitbutton->position.y + 50)
@@ -371,34 +480,127 @@ void DefaultScene::pathfinding(float deltaTime)
 	}
 }
 
+void DefaultScene::toggleTimer()
+{	
+	if (timer->paused()) 
+	{
+		timer->seconds() * -1;
+		timer->unpause();
+	}
+	else
+	{
+		timer->pause();
+	}
+}
+
+void DefaultScene::endScreen()
+{
+	menushade->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+	timeLine->clearMessage();
+	scoreLine->position = Point2(SWIDTH / 2 - 475, SHEIGHT / 2 - 200);
+	quitbutton->position = Point2(SWIDTH / 2 + 300, SHEIGHT / 2 + 150);
+	mainmenubutton->position = Point2(SWIDTH / 2 - 300, SHEIGHT / 2 + 150);
+	highscoreLine->position = Point2(SWIDTH / 2 - 250, SHEIGHT / 2 - 50);
+	retrybutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 150);
+	menutext->position.x = 9999;
+	checkHighscore();
+	endscreenselected = true;
+}
+
+void DefaultScene::toggleMainMenu()
+{
+	if (mainmenuselected)
+	{
+		mainmenubg->position.x = 9999;
+		quitbutton->position.x = 9999;
+		playbutton->position.x = 9999;
+		retrybutton->position.x = 9999;
+		logo->position.x = 9999;
+		mainmenuselected = false;
+		timer->start();
+	} 
+	else 
+	{
+		mainmenubg->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+		quitbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 200);
+		playbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 50);
+		logo->position = Point2(SWIDTH / 2, SHEIGHT / 2 - 150);
+		mainmenuselected = true;
+		timer->stop();
+		points = 0;
+		text[2]->clearMessage();
+	}
+}
+
+void DefaultScene::retry()
+{
+	points = 0;
+	mainmenubg->position.x = 9999;
+	quitbutton->position.x = 9999;
+	playbutton->position.x = 9999;
+	retrybutton->position.x = 9999;
+	highscoreLine->position.x = 9999;
+	mainmenubutton->position.x = 9999;
+	scoreLine->position.x = 9999;
+	menushade->position.x = 9999;
+	timer->stop();
+	timer->start();
+	endscreenselected = false;
+}
+
 void DefaultScene::update(float deltaTime)
 {
 
-	// ###############################################################
-	// Controls
-	// ###############################################################
-	if (input()->getKeyUp(KeyCode::Escape))
-	{
-		//this->stop();
-		enableMenu();
-	}
 
-	if (!menuselected)
+	if (!menuselected && !mainmenuselected && !endscreenselected)
 	{
 		checkInputs(deltaTime);
 		pathfinding(deltaTime);
+		updatescore(points);
+		updateTime(abs(timer->seconds() + -15));
+		toggleTimer();
+		checkMenuButtons();
 
 		if (randomtileMax < maxtargets)
 		{
 			AssignColors();
 		}
+		if (input()->getKeyUp(KeyCode::Escape))
+		{
+			enableMenu();
+		}
 	}
 
-	updatescore(points);
-
-	if (menuselected)
+	else if (menuselected && !mainmenuselected && !endscreenselected)
 	{
+		timer->pause();
+
+		if (input()->getKeyUp(KeyCode::Escape))
+		{
+			enableMenu();
+		}
 		checkMenuButtons();
 	}
-}
 
+	if (!menuselected && mainmenuselected && !endscreenselected)
+	{
+		timer->pause();
+		checkMenuButtons();
+	}
+
+	if (menuselected && mainmenuselected && !endscreenselected)
+	{
+		timer->pause();
+		checkMenuButtons();
+	}
+
+	if (!menuselected && !mainmenuselected && endscreenselected)
+	{
+		timer->stop();
+		timer->pause();
+		checkMenuButtons();
+	}
+
+
+	//std::cout <<  "menuselected: " <<menuselected << ", mainmenuselected: " << mainmenuselected << ", endscreenselected: " << endscreenselected << std::endl;
+}

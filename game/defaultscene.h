@@ -15,6 +15,8 @@
 #include "player.h"
 #include "button.h"
 #include "basicentity.h"
+#include <text.h>
+#include <iomanip>
 
 /// @brief The MyScene class is the Scene implementation.
 class DefaultScene : public Scene
@@ -40,6 +42,8 @@ public:
 
 	void updatescore(int);
 
+	void updateTime(double);
+
 	void enableMenu();
 
 	void pathfinding(float deltaTime);
@@ -47,6 +51,16 @@ public:
 	void checkInputs(float deltaTime);
 
 	void checkMenuButtons();
+
+	void toggleTimer();
+
+	void endScreen();
+
+	void toggleMainMenu();
+
+	void checkHighscore();
+
+	void retry();
 
 	size_t findnearest(Point2 pos)
 	{
@@ -82,10 +96,23 @@ private:
 	int randomtileMax;
 	int points;
 	int maxtargets;
+	int highscore;
 	std::vector<Text*> text;
 	Text* menutext;
 	Basicentity* menushade;
 	Point2 mousepos;
+	Text* scoreLine;
+	Text* timeLine;
+	Text* highscoreLine;
+	Basicentity* pauseicon;
+	Timer* timer;
+	std::stringstream timestream;
+	Basicentity* mainmenubg;
+	Button* playbutton;
+	Button* retrybutton;
+	bool mainmenuselected;
+	bool endscreenselected;
+	Basicentity* logo;
 };
 
 #endif /* DEFAULTSCENE_H */
