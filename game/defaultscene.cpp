@@ -435,7 +435,14 @@ void DefaultScene::checkMenuButtons()
 			{
 				enableMenu();
 			}
+			for (int p = 0; p < hexagons.size() - 1; p++)
+			{
+				hexagons[p]->addSprite("assets/hexagon.tga");
+				hexagons[p]->sprite()->color = GRAY;
+			}
+			randomtileMax = 0;
 			scoreLine->position.x = 9999;
+			AssignColors();
 		}
 	}
 
