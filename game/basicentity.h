@@ -1,3 +1,11 @@
+/**
+ * Copyright 2020 Niels Koster
+ *
+ * @file basicentity.h
+ *
+ * @brief description of basicentity behavior.
+ */
+
 #ifndef BASICENTITY_H
 #define BASICENTITY_H
 

@@ -1,9 +1,9 @@
 /**
- * Copyright 2015 Your Name <you@yourhost.com>
+ * Copyright 2020 Niels Koster
  *
- * @file myentity.h
+ * @file hexagon.h
  *
- * @brief description of MyEntity behavior.
+ * @brief description of hexagon behavior.
  */
 
 #ifndef HEXAGON_H

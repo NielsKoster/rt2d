@@ -1,7 +1,7 @@
 /**
- * This class describes MyEntity behavior.
+ * This class describes button behavior.
  *
- * Copyright 2015 Your Name <you@yourhost.com>
+ * Copyright 2020 Niels Koster 
  */
 
 #include "button.h"

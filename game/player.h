@@ -1,3 +1,11 @@
+/**
+ * Copyright 2020 Niels Koster
+ *
+ * @file player.h
+ *
+ * @brief description of player behavior.
+ */
+
 #ifndef PLAYER_H
 #define PLAYER_H
 

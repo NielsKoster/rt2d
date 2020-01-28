@@ -1,3 +1,11 @@
+/**
+ * Copyright 2020 Niels Koster
+ *
+ * @file button.h
+ *
+ * @brief description of button behavior.
+ */
+
 #ifndef BUTTON_H
 #define BUTTON_H
 

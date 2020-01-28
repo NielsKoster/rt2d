@@ -1,9 +1,9 @@
 /**
- * Copyright 2015 Your Name <you@yourhost.com>
+ * Copyright 2020 Niels Koster
  *
- * @file myscene.h
+ * @file defaultscene.h
  *
- * @brief description of MyScene behavior.
+ * @brief description of defaultscene behavior.
  */
 
 #ifndef DEFAULTSCENE_H
