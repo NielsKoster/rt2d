@@ -1,18 +1,23 @@
 /**
- * Copyright 2015 Your Name <you@yourhost.com>
+ * Copyright 2020 Niels Koster 
  *
- * @brief Description of My Awesome Game.
+ * @brief ColorClicker.
  *
  * @file main.cpp
  *
- * @mainpage My Awesome Game
+ * @mainpage ColorClicker
  *
  * @section intro Introduction
- *
- * Detailed description of My Awesome Game.
- *
+
+ * Colorclicker is a game where the goal is to move a hexagon to other hexagons.	
+
+ * If you select the right color when over another hexagon and you just happen to press space, ya get a point.
+ * If you press space and the if statement above aint true, there are only negative points for you.
+ * This game only really lasts 30 seconds per session, but it's pretty interesting seeing how 'high' your 'score' really can get. 
+ * 
  * There's even a second paragraph.
  */
+
 #include <rt2d/core.h>
 
 #include "defaultscene.h"
