@@ -26,9 +26,6 @@ public:
 	/// @param deltaTime the elapsed time in seconds
 	/// @return void
 	virtual void update(float deltaTime);
-
-	void OnClick();
-
 private:
 };
 

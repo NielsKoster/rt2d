@@ -105,8 +105,8 @@ void DefaultScene::UISetup()
 
 	menushade->sprite()->color = BLACK;
 	menushade->sprite()->color.a = 150;
-	mainmenubg->sprite()->color = WHITE;
-	logo->sprite()->color = BLACK;
+	mainmenubg->sprite()->color = GRAY;
+	logo->sprite()->color = WHITE;
 
 	menu->position.y = SHEIGHT / 2;
 	mainmenubutton->position.y = SHEIGHT / 2;
@@ -265,7 +265,7 @@ void DefaultScene::updateTime(double time)
 	timestream << std::fixed << std::setprecision(2) << time * 2;
 	text[1]->message(timestream.str());
 
-	if (abs(timer->seconds() + -15) < 0.1)
+	if (abs(timer->seconds() + -1) < 0.1)
 	{
 		endScreen();
 	}
@@ -414,7 +414,6 @@ void DefaultScene::checkMenuButtons()
 			enableMenu();
 			toggleMainMenu();
 			endscreenselected = false;
-
 		}
 	}
 
@@ -516,26 +515,44 @@ void DefaultScene::endScreen()
 
 void DefaultScene::toggleMainMenu()
 {
-	if (mainmenuselected)
+	if (mainmenuselected || endscreenselected)
 	{
 		mainmenubg->position.x = 9999;
 		quitbutton->position.x = 9999;
 		playbutton->position.x = 9999;
 		retrybutton->position.x = 9999;
 		logo->position.x = 9999;
-		mainmenuselected = false;
 		timer->start();
+		mainmenuselected = false;
 	} 
-	else 
+
+	else
 	{
 		mainmenubg->position = Point2(SWIDTH / 2, SHEIGHT / 2);
 		quitbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 275);
 		playbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 150);
 		logo->position = Point2(SWIDTH / 2, SHEIGHT / 2 - 150);
-		mainmenuselected = true;
 		timer->stop();
 		points = 0;
 		text[2]->clearMessage();
+		mainmenuselected = true;
+	}
+
+	if (endscreenselected)
+	{
+		pauseicon->position.x = 9999;
+		highscoreLine->position.x = 9999;
+		menu->position.x = 9999;
+		mainmenubutton->position.x = 9999;
+		menushade->position.x = 9999;
+		mainmenubg->position = Point2(SWIDTH / 2, SHEIGHT / 2);
+		quitbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 275);
+		playbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 150);
+		logo->position = Point2(SWIDTH / 2, SHEIGHT / 2 - 150);
+		timer->stop();
+		points = 0;
+		text[2]->clearMessage();
+		mainmenuselected = true;
 	}
 }
 
@@ -609,5 +626,5 @@ void DefaultScene::update(float deltaTime)
 	}
 
 
-	//std::cout <<  "menuselected: " <<menuselected << ", mainmenuselected: " << mainmenuselected << ", endscreenselected: " << endscreenselected << std::endl;
+	std::cout <<  "menuselected: " <<menuselected << ", mainmenuselected: " << mainmenuselected << ", endscreenselected: " << endscreenselected << std::endl;
 }

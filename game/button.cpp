@@ -23,8 +23,3 @@ void Button::update(float deltaTime)
 {
 }
 
-void Button::OnClick()
-{
-	
-}
-
