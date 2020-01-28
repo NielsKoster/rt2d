@@ -529,8 +529,8 @@ void DefaultScene::toggleMainMenu()
 	else 
 	{
 		mainmenubg->position = Point2(SWIDTH / 2, SHEIGHT / 2);
-		quitbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 200);
-		playbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 50);
+		quitbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 275);
+		playbutton->position = Point2(SWIDTH / 2, SHEIGHT / 2 + 150);
 		logo->position = Point2(SWIDTH / 2, SHEIGHT / 2 - 150);
 		mainmenuselected = true;
 		timer->stop();
