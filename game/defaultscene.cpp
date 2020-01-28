@@ -104,12 +104,11 @@ void DefaultScene::UISetup()
 	menushade->addSprite("assets/color.tga");
 	pauseicon->addSprite("assets/pause_icon.tga");
 	mainmenubg->addSprite("assets/color.tga");
-	logo->addSprite("assets/colorclicker_logo.tga");
+	logo->addSprite("assets/colorclicker_logo_c.tga");
 
 	menushade->sprite()->color = BLACK;
 	menushade->sprite()->color.a = 150;
 	mainmenubg->sprite()->color = GRAY;
-	logo->sprite()->color = WHITE;
 
 	menu->position.y = SHEIGHT / 2;
 	mainmenubutton->position.y = SHEIGHT / 2;
