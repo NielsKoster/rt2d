@@ -21,15 +21,9 @@ public:
 	/// @brief Destructor
 	virtual ~Player();
 
-	bool faded;
-
-	Basicentity* playericon;
+	Basicentity* pointsicon;
 
 	Vector2 NavigateToPoint(Vector2 beginpos, Hexagon* despos, float deltaTime);
-
-	void iconmovement(float deltaTime);
-
-	void showpoints(int points);
 
 	/// @brief update is automatically called every frame
 	/// @param deltaTime the elapsed time in seconds
@@ -39,7 +33,6 @@ public:
 	std::vector<RGBAColor> colors;
 
 private:
-
 };
 
 #endif /* PLAYER_H */

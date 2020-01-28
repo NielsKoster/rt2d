@@ -42,8 +42,8 @@ DefaultScene::DefaultScene() : Scene()
 
 	
 	this->addChild(player);
-	player->position = hexagons[0]->position;
-	player->scale = hexagons[0]->scale;
+	player->position = hexagons[500]->position;
+	player->scale = hexagons[500]->scale;
 
 	colorCounter = 0;
 	addColors();
@@ -69,17 +69,20 @@ DefaultScene::~DefaultScene()
 		delete hexagons[i];
 	}
 
-	delete player->playericon;
 	delete player;
 	delete menu;
 	delete mainmenubutton;
 	delete quitbutton;
 	delete menutext;
-	delete mainmenubg;
 	delete menushade;
-	delete highscoreLine;
+	delete pauseicon;
 	delete scoreLine;
+	delete timeLine;
+	delete highscoreLine;
+	delete mainmenubg;
+	delete playbutton;
 	delete retrybutton;
+	delete logo;
 }
 
 void DefaultScene::UISetup()
@@ -265,7 +268,7 @@ void DefaultScene::updateTime(double time)
 	timestream << std::fixed << std::setprecision(2) << time * 2;
 	text[1]->message(timestream.str());
 
-	if (abs(timer->seconds() + -1) < 0.1)
+	if (abs(timer->seconds() + -15) < 0.1)
 	{
 		endScreen();
 	}
@@ -422,6 +425,14 @@ void DefaultScene::checkMenuButtons()
 		if (input()->getMouseDown(0))
 		{
 			retry();
+			for (int p = 0; p < hexagons.size() - 1; p++)
+			{
+				hexagons[p]->addSprite("assets/hexagon.tga");
+				hexagons[p]->sprite()->color = GRAY;
+			}
+			randomtileMax = 0;
+			scoreLine->position.x = 9999;
+			AssignColors();
 		}
 	}
 
@@ -626,5 +637,5 @@ void DefaultScene::update(float deltaTime)
 	}
 
 
-	std::cout <<  "menuselected: " <<menuselected << ", mainmenuselected: " << mainmenuselected << ", endscreenselected: " << endscreenselected << std::endl;
+	//std::cout <<  "menuselected: " <<menuselected << ", mainmenuselected: " << mainmenuselected << ", endscreenselected: " << endscreenselected << std::endl;
 }
