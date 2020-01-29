@@ -288,10 +288,10 @@ void DefaultScene::enableMenu()
 {
 	if (!menuselected) {
 		menu->position.x = SWIDTH / 2 + 300;
+		menutext->position = Point2(-65, -165);
 		mainmenubutton->position.x = SWIDTH / 2 + 300; 
 		quitbutton->position.x = SWIDTH / 2 + 300;
 		pauseicon->position.x = SWIDTH / 2 - 300;
-
 		mainmenubutton->position.y = (SHEIGHT / 2);
 		quitbutton->position.y = (SHEIGHT / 2) + 125;
 		menushade->position = Point2(SWIDTH / 2, SHEIGHT / 2);
